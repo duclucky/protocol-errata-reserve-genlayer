@@ -2,16 +2,82 @@
   "network": "studionet",
   "chainId": 61999,
   "contractName": "ProtocolErrataReserve",
-  "contractAddress": "0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc",
-  "deployTxHash": "0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246",
+  "contractAddress": "0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90",
+  "deployTxHash": "0xf40fac205b12864a5c03e707bb2c8d88ac5660e513f888284fbae2b6b0242d4d",
   "deployReceipt": {
-    "hash": "0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246",
+    "hash": "0xf40fac205b12864a5c03e707bb2c8d88ac5660e513f888284fbae2b6b0242d4d",
     "finality": "FINALIZED",
     "executionStatus": "SUCCESS",
     "consensus": "UNKNOWN",
-    "contractAddress": "0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc"
+    "contractAddress": "0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90"
   },
-  "deployedAt": "2026-09-04T17:49:54.232Z",
-  "explorerUrl": "https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc",
-  "sponsorAddress": "0xC495ef51618D03267A1f227aFe5b27B38c748272"
+  "deployedAt": "2026-09-04T22:31:22.994Z",
+  "explorerUrl": "https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90",
+  "sponsorAddress": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+  "lifecycle": {
+    "reserveId": "reserve-rfc2865-mtnj4woh",
+    "reviewId": "review-9034-mtnj4woh",
+    "createReserveTx": "0xdef39a60dd8be708c381bf641793bdb254589cfdf275052d043afbc31d0d6095",
+    "openReviewTx": "0x6af15173de138bf64b3153a58ce001f300c3a11907755c75d86f49eb3c3c9136",
+    "adjudicateTx": "0x952370134b534418cd29c0ec4cec0edbd32c28188bb3872cc6d282d8b78f1c22",
+    "createReceipt": {
+      "hash": "0xdef39a60dd8be708c381bf641793bdb254589cfdf275052d043afbc31d0d6095",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS",
+      "consensus": "UNKNOWN",
+      "contractAddress": null
+    },
+    "openReceipt": {
+      "hash": "0x6af15173de138bf64b3153a58ce001f300c3a11907755c75d86f49eb3c3c9136",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS",
+      "consensus": "UNKNOWN",
+      "contractAddress": null
+    },
+    "adjudicateReceipt": {
+      "hash": "0x952370134b534418cd29c0ec4cec0edbd32c28188bb3872cc6d282d8b78f1c22",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS",
+      "consensus": "UNKNOWN",
+      "contractAddress": null
+    },
+    "finalReserve": {
+      "reserve_id": "reserve-rfc2865-mtnj4woh",
+      "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "IMPACT_SETTLED",
+      "reserve_balance_gen": "1.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788561163,
+      "expires_at": 1791153161,
+      "review_count": 1
+    },
+    "finalReview": {
+      "review_id": "review-9034-mtnj4woh",
+      "reserve_id": "reserve-rfc2865-mtnj4woh",
+      "errata_id": "9034",
+      "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+      "status": "MATERIAL_IMPACT",
+      "verdict": "MATERIAL_IMPACT",
+      "rationale": "The erratum adds a new normative requirement in RFC2865 §4.1 that Access-Request packets MUST contain Message-Authenticator, which directly contradicts the locked claim that implementations accept valid client Access-Request packets without requiring that attribute.",
+      "settlement_credit_gen": "1.00",
+      "created_at": 1788561201,
+      "review_deadline": 1788820401,
+      "finalized_at": 1788561237
+    },
+    "implementerCredits": "1.00",
+    "finalAccounting": {
+      "total_received_gen": "2.00",
+      "reserve_balances_gen": "1.00",
+      "credits_pending_gen": "1.00",
+      "total_withdrawn_gen": "0.00",
+      "accounted_total_gen": "2.00",
+      "balanced": true
+    },
+    "executedAt": "2026-09-04T22:34:54.645Z"
+  }
 }

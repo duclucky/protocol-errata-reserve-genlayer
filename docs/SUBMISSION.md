@@ -25,7 +25,7 @@ Character count: 824
 ## Evidence
 
 - Repository: https://github.com/duclucky/protocol-errata-reserve-genlayer
-- Primary contract explorer: https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc
+- Primary contract explorer: https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
 - Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788545982371.json`
 - Live browser evidence: `tests/browser/live-product.test.mjs`, `docs/evidence/studionet/live-prod-desktop.png`, `docs/evidence/studionet/live-prod-mobile.png`
@@ -53,7 +53,7 @@ Character count: 824
 - Frontend tests: 13 passed
 - Browser production check: desktop and mobile passed with no console/request errors or horizontal overflow
 - Network: Studionet, chain ID `61999`
-- Contract: `0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc`
+- Contract: `0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90`
 - Deploy transaction: `0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246`
 - Adjudication transaction: `0x9041670c346668cf0e7b7414af0fe6925076de2b344b01af20db4486af6e6ed0`
 - Lifecycle: reserve `reserve-rfc2865-mtn91esz`, review `review-9034-mtn91esz`, verdict `MATERIAL_IMPACT`, 1.00 GEN implementer credit pending, accounting balanced.
@@ -78,4 +78,4 @@ This is a Projects submission because the deliverable is a complete dApp with a 
 
 **Live app:** https://protocol-errata-reserve-genlayer.vercel.app
 
-**Contract (studionet):** 0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc
+**Contract (studionet):** 0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90

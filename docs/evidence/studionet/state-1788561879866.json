@@ -1,0 +1,89 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractAddress": "0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90",
+  "reserves": [
+    {
+      "reserve_id": "reserve-rfc2865-mtnj4woh",
+      "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "IMPACT_SETTLED",
+      "reserve_balance_gen": "1.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788561163,
+      "expires_at": 1791153161,
+      "review_count": 1
+    },
+    {
+      "reserve_id": "reserve-rfc2865-1788561460490",
+      "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "ACTIVE",
+      "reserve_balance_gen": "2.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788561465,
+      "expires_at": 1791153460,
+      "review_count": 0
+    },
+    {
+      "reserve_id": "reserve-rfc2865-chrome-1788561538774",
+      "sponsor": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "implementer": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "IMPACT_SETTLED",
+      "reserve_balance_gen": "1.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788561540,
+      "expires_at": 1791153538,
+      "review_count": 1
+    }
+  ],
+  "reviews": [
+    {
+      "review_id": "review-9034-mtnj4woh",
+      "reserve_id": "reserve-rfc2865-mtnj4woh",
+      "errata_id": "9034",
+      "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+      "status": "MATERIAL_IMPACT",
+      "verdict": "MATERIAL_IMPACT",
+      "rationale": "The erratum adds a new normative requirement in RFC2865 §4.1 that Access-Request packets MUST contain Message-Authenticator, which directly contradicts the locked claim that implementations accept valid client Access-Request packets without requiring that attribute.",
+      "settlement_credit_gen": "1.00",
+      "created_at": 1788561201,
+      "review_deadline": 1788820401,
+      "finalized_at": 1788561237
+    },
+    {
+      "review_id": "review-9034-1788561627637",
+      "reserve_id": "reserve-rfc2865-chrome-1788561538774",
+      "errata_id": "9034",
+      "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+      "status": "MATERIAL_IMPACT",
+      "verdict": "MATERIAL_IMPACT",
+      "rationale": "Erratum mandates Message-Authenticator, revealing that the claim allowing acceptance without it introduces a security vulnerability (CVE-2024-3596)",
+      "settlement_credit_gen": "1.00",
+      "created_at": 1788561632,
+      "review_deadline": 1788820832,
+      "finalized_at": 1788561692
+    }
+  ],
+  "accounting": {
+    "total_received_gen": "6.00",
+    "reserve_balances_gen": "4.00",
+    "credits_pending_gen": "1.00",
+    "total_withdrawn_gen": "1.00",
+    "accounted_total_gen": "6.00",
+    "balanced": true
+  },
+  "readAt": "2026-09-04T22:44:39.866Z"
+}

@@ -1,4 +1,4 @@
-# v0.2.16
+# v0.2.17
 # { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
 
 import json
@@ -435,16 +435,19 @@ class ProtocolErrataReserve(gl.Contract):
             if key in self.reserves:
                 reserve_balances = reserve_balances + self.reserves[key].reserve_balance
         credits = bigint(0)
+        seen_credit_keys = []
         for i in range(len(self.reserve_keys)):
             key = self.reserve_keys[i]
             if key in self.reserves:
                 reserve = self.reserves[key]
                 sponsor_key = _addr_str(reserve.sponsor)
                 implementer_key = _addr_str(reserve.implementer)
-                if sponsor_key in self.credits:
+                if sponsor_key in self.credits and sponsor_key not in seen_credit_keys:
                     credits = credits + self.credits[sponsor_key]
-                if implementer_key in self.credits and sponsor_key != implementer_key:
+                    seen_credit_keys.append(sponsor_key)
+                if implementer_key in self.credits and implementer_key not in seen_credit_keys:
                     credits = credits + self.credits[implementer_key]
+                    seen_credit_keys.append(implementer_key)
         accounted = reserve_balances + credits + self.total_withdrawn
         return json.dumps(
             {

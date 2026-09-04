@@ -19,8 +19,8 @@ https://protocol-errata-reserve-genlayer.vercel.app
 
 - Network: GenLayer Studionet
 - Chain ID: `61999`
-- Contract: `0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc`
-- Explorer: https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc
+- Contract: `0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90`
+- Explorer: https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
 - Deploy transaction: `0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246`
 
 ## What It Does
@@ -74,7 +74,7 @@ npm run check
 To run the frontend against the deployed contract, create `frontend/.env.local`:
 
 ```text
-VITE_CONTRACT_ADDRESS=0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc
+VITE_CONTRACT_ADDRESS=0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
 VITE_GENLAYER_EXPLORER_URL=https://explorer-studio.genlayer.com
 ```
 
@@ -103,7 +103,7 @@ Deployment and lifecycle evidence is in `docs/evidence/studionet`.
 5. Open Reviews. Select an active reserve and submit the official RFC Editor errata URL, for example `https://www.rfc-editor.org/errata/eid9034`.
 6. Wait for the transaction state to finalize, then reload canonical state.
 7. Open History and then View case to check the validator outcome and GEN consequence.
-8. Open the contract on GenLayer Explorer: https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc
+8. Open the contract on GenLayer Explorer: https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
 
 ## Verification
 

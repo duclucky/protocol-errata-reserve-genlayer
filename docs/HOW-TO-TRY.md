@@ -8,7 +8,7 @@
 - Logo: `docs/listing/logo.svg`
 - One-liner: Fund protocol remediation when official RFC errata materially affect a locked conformance claim.
 - Website: https://protocol-errata-reserve-genlayer.vercel.app
-- Contract: https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc
+- Contract: https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
 
 ## Fresh Reviewer Steps
 
@@ -51,7 +51,7 @@ Expected state summary:
 
 ```json
 {
-  "contractAddress": "0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc",
+  "contractAddress": "0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90",
   "reserves": 1,
   "reviews": 1,
   "accounting": {

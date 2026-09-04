@@ -77,6 +77,28 @@ def test_material_impact_credits_implementer_once(direct_deploy, direct_vm, dire
         contract.adjudicate_review("review-eid9034")
 
 
+def test_accounting_counts_shared_actor_credits_once_across_reserves(direct_deploy, direct_vm, direct_alice, direct_bob):
+    contract = direct_deploy("contracts/protocol_errata_reserve.py")
+
+    for suffix in ("one", "two"):
+        reserve_id = f"reserve-rfc2865-{suffix}"
+        review_id = f"review-eid9034-{suffix}"
+        create_reserve(contract, direct_vm, direct_alice, direct_bob, reserve_id=reserve_id)
+        open_review(contract, direct_vm, direct_bob, reserve_id=reserve_id, review_id=review_id)
+        mock_official_errata(direct_vm)
+        mock_verdict(direct_vm, "MATERIAL_IMPACT")
+        direct_vm.sender = direct_alice
+        contract.adjudicate_review(review_id)
+        direct_vm.clear_mocks()
+
+    accounting = json.loads(contract.get_accounting())
+    assert accounting["total_received_gen"] == "4.00"
+    assert accounting["reserve_balances_gen"] == "2.00"
+    assert accounting["credits_pending_gen"] == "2.00"
+    assert accounting["accounted_total_gen"] == "4.00"
+    assert accounting["balanced"] is True
+
+
 def test_no_material_impact_and_unverifiable_do_not_credit_implementer(direct_deploy, direct_vm, direct_alice, direct_bob):
     contract = direct_deploy("contracts/protocol_errata_reserve.py")
     create_reserve(contract, direct_vm, direct_alice, direct_bob, reserve_id="reserve-no-impact")
