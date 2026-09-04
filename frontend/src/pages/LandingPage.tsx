@@ -27,7 +27,7 @@ export function LandingPage({accounting, reserves, reviews, onNavigate, onReload
       <section className="summary-strip" aria-label="Current contract summary">
         <div><span>Active records</span><strong>{reserves.length}</strong></div>
         <div><span>Material outcomes</span><strong>{settled}</strong></div>
-        <div><span>Credits pending</span><strong>{accounting?.credits_pending_gen || '0.00'} GEN</strong></div>
+        <div><span>Remediation credit ready</span><strong>{accounting?.credits_pending_gen || '0.00'} GEN</strong></div>
       </section>
     </section>
   );

@@ -96,4 +96,14 @@ describe('product flow pages', () => {
     expect(screen.getByRole('link', {name: /Open the live app/i})).toBeInTheDocument();
     expect(screen.getByRole('link', {name: /Check the contract on GenLayer Explorer/i})).toBeInTheDocument();
   });
+
+  it('uses accessible product landmarks and avoids dashboard-only primary language', async () => {
+    render(<App />);
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+    expect(screen.getByRole('main')).toBeInTheDocument();
+    expect(screen.getByRole('navigation', {name: /Primary/i})).toBeInTheDocument();
+    expect(screen.queryByText(/Total received/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Reserve balances/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Credits pending/i)).not.toBeInTheDocument();
+  });
 });
