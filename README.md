@@ -113,9 +113,9 @@ Fresh local verification:
 - GenVM lint: passed, `ProtocolErrataReserve`, 12 methods, 6 view, 6 write
 - Direct tests: 12 passed
 - Deployment parser tests: 6 passed
-- Frontend tests: 6 passed
+- Frontend tests: 13 passed
 - Frontend typecheck and production build: passed
-- Browser-local Playwright checks: desktop and mobile loaded finalized contract state with no CORS error and no horizontal overflow
+- Browser production check: desktop and mobile loaded finalized contract state with no console/request errors and no horizontal overflow (`npm run check:browser`)
 
 ## Honest Limits
 

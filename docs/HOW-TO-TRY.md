@@ -13,14 +13,14 @@
 ## Fresh Reviewer Steps
 
 1. Open https://protocol-errata-reserve-genlayer.vercel.app in a fresh browser session.
-2. Confirm the Overview page shows the product name, Projects category, and GenLayer Explorer link.
-3. Open Start.
-4. Connect a funded EVM wallet if you want to submit a live Studionet write.
-5. Create a reserve with exactly 2 GEN, one implementer wallet address, and a locked RFC claim.
-6. Open Reviews and submit an official RFC Editor errata URL for the active reserve.
-7. Wait for finality and reload canonical state.
-8. Open History, select View case, and confirm the validator outcome and GEN consequence.
-9. Open the GenLayer Explorer contract link and confirm the contract page loads.
+2. On Overview, wait for canonical state to load and confirm `1` active record, `1` material outcome, and `1.00 GEN` remediation credit ready.
+3. Open History, select `RFC2865 section 4.1`, and click View case.
+4. Confirm `Material impact settled`, `1.00 GEN implementer credit`, the RFC Editor EID 9034 link, and the GenLayer Explorer link.
+5. Open the contract link and confirm the Studionet contract page loads.
+6. To run a live write, open Start and choose a detected funded EVM wallet from the centered wallet-selection dialog.
+7. Approve the Studionet network switch/add request, enter a valid implementer address, keep the prefilled RFC2865 section 4.1 claim, and click `Create reserve with 2 GEN`.
+8. Open Reviews, select the created reserve, keep errata ID `9034` and URL `https://www.rfc-editor.org/errata/eid9034`, then click `Submit official erratum`.
+9. After finality, use the decision action, wait for validator finality, reload canonical state, and verify the result in History and View case.
 
 ## Local Checks
 
@@ -36,7 +36,7 @@ Project protocol-errata-reserve -Category projects
 NO BLOCKER
 12 passed
 tests 6
-Tests 6 passed
+Tests 13 passed
 built
 ```
 
@@ -67,11 +67,11 @@ Expected state summary:
 
 ## Browser App
 
-The local browser app uses ignored `frontend/.env.local` for the public contract address and routes browser reads through the Vite same-origin `/genlayer-rpc` proxy.
+The deployed app has the public contract address configured in Vercel and routes browser reads through the same-origin `/genlayer-rpc` proxy. The local browser app uses ignored `frontend/.env.local` for the same public address.
 
 ```powershell
 cd "D:\Genlayer Project\protocol-errata-reserve\frontend"
 npx vite --host 127.0.0.1 --port 5178
 ```
 
-Open `http://127.0.0.1:5178/`. The first screen should show the finalized reserve, review `review-9034-mtn91esz`, verdict `MATERIAL_IMPACT`, pending credits `1.00`, and accounting `Balanced`. Write buttons remain disabled until the user selects a detected EVM wallet.
+Open `http://127.0.0.1:5178/`. The first screen should show the finalized reserve, one material outcome, and `1.00 GEN` remediation credit ready. Write buttons remain disabled until the user selects a detected EVM wallet.

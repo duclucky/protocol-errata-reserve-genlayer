@@ -27,20 +27,22 @@ Character count: 824
 - Repository: https://github.com/duclucky/protocol-errata-reserve-genlayer
 - Primary contract explorer: https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
-- Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788544366980.json`
-- Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/33905071686
+- Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788545982371.json`
+- Live browser evidence: `tests/browser/live-product.test.mjs`, `docs/evidence/studionet/live-prod-desktop.png`, `docs/evidence/studionet/live-prod-mobile.png`
+- Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/33910367562
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
 
 ## How To Try It
 
 1. Open https://protocol-errata-reserve-genlayer.vercel.app in a fresh browser session.
-2. Confirm the Overview page shows the product name, Projects category, and GenLayer Explorer link.
-3. Open Start.
-4. Connect a funded EVM wallet and switch/add GenLayer Studionet if you want to submit a live write.
-5. Create a reserve with exactly 2 GEN, one implementer wallet address, and one locked RFC claim.
-6. Open Reviews and submit an official RFC Editor errata URL for the active reserve.
-7. Wait for finality, reload canonical state, then open History and View case.
-8. Confirm the validator outcome, GEN consequence, and the contract link on GenLayer Explorer.
+2. On Overview, wait for canonical state to load, then confirm `1` active record, `1` material outcome, and `1.00 GEN` remediation credit ready.
+3. Open History, select `RFC2865 section 4.1`, and click View case.
+4. Confirm `Material impact settled`, `1.00 GEN implementer credit`, the RFC Editor EID 9034 link, and the GenLayer Explorer link.
+5. Open the contract link and confirm the Studionet contract page loads.
+6. To run the write lane, open Start, choose a detected funded EVM wallet, and approve the Studionet network switch/add request.
+7. Enter a valid implementer address, keep the prefilled RFC2865 section 4.1 claim, and click `Create reserve with 2 GEN`.
+8. Open Reviews, select the created reserve, keep errata ID `9034` and URL `https://www.rfc-editor.org/errata/eid9034`, then click `Submit official erratum`.
+9. After that transaction finalizes, click the decision action, wait for validator finality, reload canonical state, and verify the new case in History.
 
 ## Verified Facts
 
@@ -48,7 +50,8 @@ Character count: 824
 - Contract methods: 12 total, 6 view, 6 write
 - Direct tests: 12 passed
 - Deployment parser tests: 6 passed
-- Frontend tests: 6 passed
+- Frontend tests: 13 passed
+- Browser production check: desktop and mobile passed with no console/request errors or horizontal overflow
 - Network: Studionet, chain ID `61999`
 - Contract: `0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc`
 - Deploy transaction: `0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246`
@@ -57,7 +60,7 @@ Character count: 824
 
 ## Honest Limitations / Pending
 
-- Browser production proof verifies deployed contract reads through the Vercel same-origin GenLayer RPC rewrite. It does not claim a live browser-wallet write signed by an installed extension during this run.
+- Browser production proof verifies deployed contract reads and the complete read-only reviewer path through the Vercel same-origin GenLayer RPC rewrite. It does not claim a live browser-wallet write signed by an installed extension during this run.
 - CI uses artifact-independent GenVM AST lint plus tests/build because clean GitHub runners received 404 when downloading the pinned GenVM validation artifact. Full `genvm-lint check` is verified locally and the same source is deployed on Studionet.
 - Only RFC Editor errata are in scope for v1; other standards bodies and package ecosystem integrations are milestone headroom.
 
