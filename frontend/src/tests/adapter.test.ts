@@ -1,4 +1,5 @@
 import {describe, expect, it, vi} from 'vitest';
+import {TransactionStatus} from 'genlayer-js/types';
 import {ContractAdapter, parseList} from '../services/contractAdapter';
 import {TransactionTracker} from '../services/transactions';
 import {STUDIONET_CHAIN_ID} from '../services/wallet';
@@ -14,8 +15,9 @@ function adapterFixture() {
   const writeContract = vi.fn(async () => hash);
   const readContract = vi.fn(async () => '[]');
   const getTransaction = vi.fn(async () => ({status: 'FINALIZED', execution: {status: 'SUCCESS'}}));
-  Object.assign(adapter as any, {walletClient: {writeContract}, readClient: {readContract, getTransaction}});
-  return {adapter, writeContract, readContract};
+  const waitForTransactionReceipt = vi.fn(async () => ({status: 'FINALIZED', execution: {status: 'SUCCESS'}}));
+  Object.assign(adapter as any, {walletClient: {writeContract}, readClient: {readContract, getTransaction, waitForTransactionReceipt}});
+  return {adapter, writeContract, readContract, getTransaction, waitForTransactionReceipt};
 }
 
 describe('contract adapter', () => {
@@ -31,5 +33,17 @@ describe('contract adapter', () => {
     const {adapter, writeContract} = adapterFixture();
     await adapter.createReserve({implementer: '0x3333333333333333333333333333333333333333', rfcId: 'RFC2865', section: '4.1', claim: 'claim', claimVersion: 'v1', expiresAt: 1900000000});
     expect(writeContract).toHaveBeenCalledWith(expect.objectContaining({functionName: 'create_reserve', value: 2000000000000000000n}));
+  });
+
+  it('waits for finalized Studionet receipts before reloading canonical state', async () => {
+    const {adapter, getTransaction, waitForTransactionReceipt} = adapterFixture();
+    await adapter.openReview({reserveId: 'reserve-1', errataId: '9034', errataUrl: 'https://www.rfc-editor.org/errata/eid9034'});
+
+    expect(waitForTransactionReceipt).toHaveBeenCalledWith(expect.objectContaining({
+      hash,
+      status: TransactionStatus.FINALIZED,
+      fullTransaction: true,
+    }));
+    expect(getTransaction).not.toHaveBeenCalled();
   });
 });

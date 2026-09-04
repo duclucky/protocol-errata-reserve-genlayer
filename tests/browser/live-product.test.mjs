@@ -16,13 +16,15 @@ for (const [name, viewport] of Object.entries({
   page.on('requestfailed', (request) => errors.push(`${request.url()} ${request.failure()?.errorText}`));
 
   try {
+    await page.goto(`${url}/start`, {waitUntil: 'networkidle'});
+    await page.getByRole('heading', {name: /Start a remediation reserve/}).waitFor();
     await page.goto(url, {waitUntil: 'networkidle'});
     assert.equal(await page.locator('h1').first().innerText(), 'Protocol remediation reserves');
     await assert.rejects(() => page.getByRole('heading', {name: 'Lifecycle actions'}).waitFor({timeout: 500}));
     await page.getByRole('link', {name: 'Try it step by step'}).click();
     await page.getByRole('heading', {name: /Start a remediation reserve/}).waitFor();
     await page.getByRole('link', {name: 'History'}).click();
-    await page.getByText(/RFC2865 section 4.1/).waitFor();
+    await page.getByRole('article').first().getByRole('heading', {name: 'RFC2865 section 4.1'}).waitFor();
     await page.getByRole('link', {name: /View case/}).first().click();
     await page.getByText(/1.00 GEN implementer credit/).waitFor();
 

@@ -23,6 +23,7 @@ function Shell() {
   const [reserves, setReserves] = useState<Reserve[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [accounting, setAccounting] = useState<Accounting | null>(null);
+  const [walletCredits, setWalletCredits] = useState('0.00');
   const [error, setError] = useState('');
 
   const reload = async () => {
@@ -35,10 +36,16 @@ function Shell() {
       return;
     }
     try {
-      const [reserveRows, reviewRows, accountingRow] = await Promise.all([adapter.getReserves(), adapter.getReviews(), adapter.getAccounting()]);
+      const [reserveRows, reviewRows, accountingRow, walletCreditRow] = await Promise.all([
+        adapter.getReserves(),
+        adapter.getReviews(),
+        adapter.getAccounting(),
+        account ? adapter.getCredits(account) : Promise.resolve('0.00'),
+      ]);
       setReserves(reserveRows);
       setReviews(reviewRows);
       setAccounting(accountingRow);
+      setWalletCredits(walletCreditRow);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unable to read canonical contract state.');
     }
@@ -71,6 +78,7 @@ function Shell() {
           reserves={reserves}
           reviews={reviews}
           accounting={accounting}
+          walletCredits={walletCredits}
         />
         {error && <p role="alert" className="banner">{error}</p>}
         <TransactionStatus />
@@ -80,7 +88,7 @@ function Shell() {
   );
 }
 
-function RouteContent({route, caseId, navigate, reload, adapter, account, reserves, reviews, accounting}: {
+function RouteContent({route, caseId, navigate, reload, adapter, account, reserves, reviews, accounting, walletCredits}: {
   route: AppRoute;
   caseId?: string;
   navigate: (path: string) => void;
@@ -90,11 +98,12 @@ function RouteContent({route, caseId, navigate, reload, adapter, account, reserv
   reserves: Reserve[];
   reviews: Review[];
   accounting: Accounting | null;
+  walletCredits: string;
 }) {
   if (route === 'start') return <StartPage adapter={adapter} connected={Boolean(account)} onReload={reload} />;
   if (route === 'reviews') return <ReviewsPage adapter={adapter} connected={Boolean(account)} reserves={reserves} reviews={reviews} onReload={reload} />;
   if (route === 'history') return <HistoryPage reserves={reserves} reviews={reviews} onNavigate={navigate} />;
-  if (route === 'account') return <AccountPage account={account} adapter={adapter} connected={Boolean(account)} accounting={accounting} onReload={reload} />;
+  if (route === 'account') return <AccountPage account={account} adapter={adapter} connected={Boolean(account)} accounting={accounting} walletCredits={walletCredits} onReload={reload} />;
   if (route === 'help') return <HelpPage />;
   if (route === 'case') return <CaseDetailPage caseId={caseId} reserves={reserves} reviews={reviews} />;
   return <LandingPage accounting={accounting} reserves={reserves} reviews={reviews} onNavigate={navigate} onReload={reload} />;

@@ -1,5 +1,5 @@
 import {createClient} from 'genlayer-js';
-import {TransactionHashVariant} from 'genlayer-js/types';
+import {TransactionHashVariant, TransactionStatus} from 'genlayer-js/types';
 import type {Accounting, Reserve, Review} from '../types';
 import {CONTRACT_ADDRESS, ensureChain, genAmount, rpcChain, validAddress, verifyAccount, type Eip1193Provider} from './wallet';
 import {transactions, type TransactionTracker} from './transactions';
@@ -69,7 +69,13 @@ export class ContractAdapter {
     await ensureChain(this.provider);
     const hash = await this.tracker.execute(
       () => this.walletClient.writeContract({address: this.contractAddress, functionName, args, ...(value === undefined ? {} : {value})}),
-      (txHash) => this.readClient.getTransaction({hash: txHash}),
+      (txHash) => this.readClient.waitForTransactionReceipt({
+        hash: txHash,
+        status: TransactionStatus.FINALIZED,
+        interval: 5000,
+        retries: 60,
+        fullTransaction: true,
+      }),
     );
     return hash;
   }

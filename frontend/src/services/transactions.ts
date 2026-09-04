@@ -7,9 +7,31 @@ export type TransactionState = {
   hash?: string;
 };
 
+export type TransactionTrackerOptions = {
+  pollAttempts?: number;
+  pollIntervalMs?: number;
+};
+
+function delay(ms: number) {
+  return ms > 0 ? new Promise((resolve) => setTimeout(resolve, ms)) : Promise.resolve();
+}
+
+function receiptStatus(receipt: any) {
+  const execution = String(receipt?.executionStatus || receipt?.execution_status || receipt?.txExecutionResultName || receipt?.execution?.status || receipt?.result?.status || '').toUpperCase();
+  const finality = String(receipt?.finality || receipt?.statusName || receipt?.status_name || receipt?.status || '').toUpperCase();
+  return {execution, finality};
+}
+
 export class TransactionTracker {
   state: TransactionState = {phase: 'idle', message: 'No transaction submitted.'};
   private listeners = new Set<(state: TransactionState) => void>();
+  private pollAttempts: number;
+  private pollIntervalMs: number;
+
+  constructor(options: TransactionTrackerOptions = {}) {
+    this.pollAttempts = options.pollAttempts ?? 60;
+    this.pollIntervalMs = options.pollIntervalMs ?? 5000;
+  }
 
   subscribe(listener: (state: TransactionState) => void) {
     this.listeners.add(listener);
@@ -30,12 +52,18 @@ export class TransactionTracker {
       const hash = await write();
       if (!/^0x[0-9a-fA-F]+$/.test(hash)) throw new Error('Wallet returned an invalid transaction hash.');
       this.update({phase: 'submitted', message: 'Transaction submitted to Studionet.', hash});
-      const receipt = await readReceipt(hash);
-      const execution = String(receipt?.executionStatus || receipt?.execution_status || receipt?.execution?.status || receipt?.result?.status || '').toUpperCase();
-      const finality = String(receipt?.finality || receipt?.status || '').toUpperCase();
-      if (execution === 'ERROR' || execution === 'FAILED') throw new Error(receipt?.message || 'Contract execution failed.');
-      const phase: TxPhase = finality.includes('FINAL') || execution === 'SUCCESS' ? 'finalized' : 'pending';
-      this.update({phase, message: phase === 'finalized' ? 'Finalized successfully; canonical state reloaded.' : 'Submitted; waiting for finality.', hash});
+      for (let attempt = 0; attempt < this.pollAttempts; attempt += 1) {
+        const receipt = await readReceipt(hash);
+        const {execution, finality} = receiptStatus(receipt);
+        if (execution === 'ERROR' || execution === 'FAILED') throw new Error(receipt?.message || 'Contract execution failed.');
+        if (finality.includes('FINAL') || execution === 'SUCCESS') {
+          this.update({phase: 'finalized', message: 'Finalized successfully; canonical state reloaded.', hash});
+          return hash;
+        }
+        this.update({phase: 'pending', message: 'Submitted; waiting for finality.', hash});
+        if (attempt < this.pollAttempts - 1) await delay(this.pollIntervalMs);
+      }
+      this.update({phase: 'unknown', message: 'Submitted, but finality is not confirmed yet. Reload canonical state after a short wait.', hash});
       return hash;
     } catch (error) {
       const detail = walletError(error);

@@ -1,7 +1,8 @@
 import {render, screen, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {describe, expect, it, vi} from 'vitest';
+import {afterEach, describe, expect, it, vi} from 'vitest';
 import {App} from '../App';
+import {STUDIONET_CHAIN_ID} from '../services/wallet';
 
 const reserves = [{
   reserve_id: 'reserve-rfc2865-mtn91esz',
@@ -38,10 +39,11 @@ vi.mock('../services/contractAdapter', () => ({
   ContractAdapter: class {
     getReserves = async () => reserves;
     getReviews = async () => reviews;
+    getCredits = async () => '0.00';
     getAccounting = async () => ({
       total_received_gen: '2.00',
       reserve_balances_gen: '1.00',
-      credits_pending_gen: '1.00',
+      credits_pending_gen: '5.00',
       total_withdrawn_gen: '0.00',
       accounted_total_gen: '2.00',
       balanced: true,
@@ -50,6 +52,10 @@ vi.mock('../services/contractAdapter', () => ({
 }));
 
 describe('product flow pages', () => {
+  afterEach(() => {
+    delete (window as any).ethereum;
+  });
+
   it('shows prior cases as user outcomes and opens a case detail route', async () => {
     const user = userEvent.setup();
     render(<App />);
@@ -105,5 +111,29 @@ describe('product flow pages', () => {
     expect(screen.queryByText(/Total received/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Reserve balances/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Credits pending/i)).not.toBeInTheDocument();
+  });
+
+  it('shows wallet-specific withdrawable credit instead of aggregate pending credit', async () => {
+    const user = userEvent.setup();
+    const account = '0x2222222222222222222222222222222222222222';
+    (window as any).ethereum = {
+      request: vi.fn(async ({method}: {method: string}) => {
+        if (method === 'eth_requestAccounts' || method === 'eth_accounts') return [account];
+        if (method === 'eth_chainId') return STUDIONET_CHAIN_ID;
+        return [];
+      }),
+    };
+
+    render(<App />);
+
+    await user.click(screen.getByRole('button', {name: /Connect wallet/i}));
+    await user.click(await screen.findByRole('button', {name: /Browser injected wallet/i}));
+    await user.click(screen.getByRole('link', {name: 'Account'}));
+
+    expect(await screen.findByText(`Connected wallet ${account}`)).toBeInTheDocument();
+    expect(screen.getByText(/Your withdrawable credit/i)).toBeInTheDocument();
+    expect(screen.getByText(/0.00 GEN/)).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: /Withdraw finalized credits/i})).toBeDisabled();
+    expect(screen.queryByText(/5.00 GEN pending implementer credits across the contract/i)).not.toBeInTheDocument();
   });
 });
