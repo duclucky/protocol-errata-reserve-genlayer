@@ -1,12 +1,15 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
-import {RefreshCcw} from 'lucide-react';
 import {Header} from './components/Header';
 import {TransactionStatus} from './components/TransactionStatus';
 import {WalletModal} from './components/WalletModal';
 import {WalletProvider, useWallet} from './context/WalletContext';
+import {AccountPage} from './pages/AccountPage';
 import {CaseDetailPage} from './pages/CaseDetailPage';
+import {HelpPage} from './pages/HelpPage';
 import {HistoryPage} from './pages/HistoryPage';
-import {productFacts} from './productCopy';
+import {LandingPage} from './pages/LandingPage';
+import {ReviewsPage} from './pages/ReviewsPage';
+import {StartPage} from './pages/StartPage';
 import {parseRoute, type AppRoute} from './routing';
 import {ContractAdapter} from './services/contractAdapter';
 import {CONTRACT_ADDRESS} from './services/wallet';
@@ -63,6 +66,8 @@ function Shell() {
           caseId={routeState.caseId}
           navigate={navigate}
           reload={reload}
+          adapter={adapter}
+          account={account}
           reserves={reserves}
           reviews={reviews}
           accounting={accounting}
@@ -75,42 +80,24 @@ function Shell() {
   );
 }
 
-function RouteContent({route, caseId, navigate, reload, reserves, reviews, accounting}: {
+function RouteContent({route, caseId, navigate, reload, adapter, account, reserves, reviews, accounting}: {
   route: AppRoute;
   caseId?: string;
   navigate: (path: string) => void;
   reload: () => Promise<void>;
+  adapter: ContractAdapter;
+  account: string;
   reserves: Reserve[];
   reviews: Review[];
   accounting: Accounting | null;
 }) {
-  if (route === 'start') return <SimplePage title="Start a remediation reserve" body="Create a 2 GEN reserve for a specific RFC claim and implementer." />;
-  if (route === 'reviews') return <SimplePage title="Submit official errata" body="Submit an official RFC Editor erratum for an active reserve." />;
+  if (route === 'start') return <StartPage adapter={adapter} connected={Boolean(account)} onReload={reload} />;
+  if (route === 'reviews') return <ReviewsPage adapter={adapter} connected={Boolean(account)} reserves={reserves} reviews={reviews} onReload={reload} />;
   if (route === 'history') return <HistoryPage reserves={reserves} reviews={reviews} onNavigate={navigate} />;
-  if (route === 'account') return <SimplePage title="Wallet and credits" body={`Pending credits: ${accounting?.credits_pending_gen || '0.00'} GEN.`} />;
-  if (route === 'help') return <SimplePage title="Try ProtocolErrataReserve" body="Follow the app from overview, start, reviews, history, case detail, and account." />;
+  if (route === 'account') return <AccountPage account={account} adapter={adapter} connected={Boolean(account)} accounting={accounting} onReload={reload} />;
+  if (route === 'help') return <HelpPage />;
   if (route === 'case') return <CaseDetailPage caseId={caseId} reserves={reserves} reviews={reviews} />;
-  return (
-    <section className="hero-panel">
-      <div>
-        <p className="eyebrow">{productFacts.category} on Studionet</p>
-        <h1>Protocol remediation reserves</h1>
-        <p className="lede">{productFacts.oneLiner}</p>
-        <a className="primary cta-link" href="/start" onClick={(event) => { event.preventDefault(); navigate('/start'); }}>Try it step by step</a>
-      </div>
-      <button className="secondary" onClick={reload}><RefreshCcw aria-hidden="true" size={18} /> Reload canonical state</button>
-    </section>
-  );
-}
-
-function SimplePage({title, body}: {title: string; body: string}) {
-  return (
-    <section className="panel wide">
-      <p className="eyebrow">ProtocolErrataReserve</p>
-      <h1>{title}</h1>
-      <p className="lede">{body}</p>
-    </section>
-  );
+  return <LandingPage accounting={accounting} reserves={reserves} reviews={reviews} onNavigate={navigate} onReload={reload} />;
 }
 
 export function App() {

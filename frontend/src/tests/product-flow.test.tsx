@@ -70,4 +70,30 @@ describe('product flow pages', () => {
     expect(within(main).queryByText(/adjudicate_review/i)).not.toBeInTheDocument();
     expect(within(main).queryByText(/get_all_reserves/i)).not.toBeInTheDocument();
   });
+
+  it('guides a fresh reviewer through the exact try path without prior context', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(screen.getByText(/Fund protocol remediation/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', {name: /Try it step by step/i})).toBeInTheDocument();
+
+    await user.click(screen.getByRole('link', {name: /Try it step by step/i}));
+    expect(screen.getByRole('heading', {name: /Start a remediation reserve/i})).toBeInTheDocument();
+    expect(screen.getByText(/Step 1 of 5/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', {name: /Create reserve with 2 GEN/i})).toBeDisabled();
+
+    await user.click(screen.getByRole('link', {name: 'Reviews'}));
+    expect(screen.getByRole('heading', {name: /Submit official errata/i})).toBeInTheDocument();
+    expect(screen.getByText(/RFC Editor errata URL/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('link', {name: 'Account'}));
+    expect(screen.getByRole('heading', {name: /Wallet and credits/i})).toBeInTheDocument();
+    expect(screen.getByText(/Connect a wallet to withdraw finalized credits/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('link', {name: 'Help'}));
+    expect(screen.getByRole('heading', {name: /Try ProtocolErrataReserve/i})).toBeInTheDocument();
+    expect(screen.getByRole('link', {name: /Open the live app/i})).toBeInTheDocument();
+    expect(screen.getByRole('link', {name: /Check the contract on GenLayer Explorer/i})).toBeInTheDocument();
+  });
 });
