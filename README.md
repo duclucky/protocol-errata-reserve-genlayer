@@ -4,7 +4,7 @@ ProtocolErrataReserve is a GenLayer dApp for funding protocol remediation when o
 
 ## Live App
 
-Pending Vercel deployment.
+https://protocol-errata-reserve-genlayer.vercel.app
 
 ## Deployed Contract
 

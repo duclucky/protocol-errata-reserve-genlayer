@@ -131,6 +131,7 @@ Frontend directives:
 ## Studionet Evidence
 
 - Contract: `0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc`
+- Live app: `https://protocol-errata-reserve-genlayer.vercel.app`
 - Deploy transaction: `0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246`
 - Adjudication transaction: `0x9041670c346668cf0e7b7414af0fe6925076de2b344b01af20db4486af6e6ed0`
 - Reserve: `reserve-rfc2865-mtn91esz`
