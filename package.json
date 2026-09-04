@@ -10,6 +10,8 @@
   "scripts": {
     "check": "npm run check:contract && npm run check:tests && npm run check:deployment && npm run check:frontend && npm run precheck",
     "check:contract": "node scripts/run-venv.mjs genvm-lint check contracts/protocol_errata_reserve.py",
+    "ci:check": "npm run ci:contract && npm run check:tests && npm run check:deployment && npm run check:frontend && npm run precheck",
+    "ci:contract": "node scripts/run-venv.mjs genvm-lint lint contracts/protocol_errata_reserve.py --json",
     "check:tests": "node scripts/run-venv.mjs python -m pytest tests -q",
     "check:deployment": "node --test tests/deployment/*.test.mjs",
     "check:frontend": "npm --workspace frontend test && npm --workspace frontend run typecheck && npm --workspace frontend run build",
