@@ -559,7 +559,12 @@ textarea {
 
 .instruction-list a,
 .panel a {
+  display: inline-block;
   overflow-wrap: anywhere;
+}
+
+.panel a + a {
+  margin-left: 12px;
 }
 
 .tx {
@@ -659,6 +664,7 @@ textarea {
 
   .product-nav {
     order: 3;
+    flex: 0 0 100%;
     width: 100%;
     justify-content: flex-start;
     overflow-x: auto;
@@ -685,10 +691,18 @@ textarea {
 
   .app-header {
     padding: 10px 14px;
+    gap: 8px;
+  }
+
+  .brand {
+    min-width: 0;
   }
 
   .brand span {
-    font-size: 0.9rem;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.82rem;
   }
 
   .hero-panel {
@@ -740,6 +754,11 @@ textarea {
   .form-actions button,
   .form-actions a {
     width: 100%;
+  }
+
+  .panel a + a {
+    display: block;
+    margin: 8px 0 0;
   }
 }
 

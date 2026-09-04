@@ -15,6 +15,7 @@
     "check:tests": "node scripts/run-venv.mjs python -m pytest tests -q",
     "check:deployment": "node --test tests/deployment/*.test.mjs",
     "check:frontend": "npm --workspace frontend test && npm --workspace frontend run typecheck && npm --workspace frontend run build",
+    "check:browser": "node tests/browser/live-product.test.mjs",
     "precheck": "node scripts/precheck.mjs",
     "lint:contracts": "node scripts/run-venv.mjs genvm-lint check contracts/protocol_errata_reserve.py",
     "test:direct": "node scripts/run-venv.mjs python -m pytest tests/direct -q",
