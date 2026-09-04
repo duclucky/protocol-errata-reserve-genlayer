@@ -12,7 +12,9 @@ export const routes: Array<{id: AppRoute; path: string; label: string}> = [
 export const productFacts = {
   name: 'ProtocolErrataReserve',
   category: 'Projects',
+  logoPath: '/listing/logo.svg',
   oneLiner: 'Fund protocol remediation when official RFC errata materially affect a locked conformance claim.',
+  shortDescription: 'For protocol sponsors and implementers, ProtocolErrataReserve locks a 2 GEN reserve, lets GenLayer validators judge official RFC Editor errata, and credits remediation when the erratum materially changes the claim.',
   liveUrl: 'https://protocol-errata-reserve-genlayer.vercel.app',
   explorerUrl: 'https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc',
 };

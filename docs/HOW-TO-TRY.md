@@ -1,5 +1,27 @@
 # How To Try ProtocolErrataReserve
 
+## Listing Summary
+
+- Name: ProtocolErrataReserve
+- Category: Projects
+- Status: Preview, because this deployment is on GenLayer Studionet.
+- Logo: `docs/listing/logo.svg`
+- One-liner: Fund protocol remediation when official RFC errata materially affect a locked conformance claim.
+- Website: https://protocol-errata-reserve-genlayer.vercel.app
+- Contract: https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc
+
+## Fresh Reviewer Steps
+
+1. Open https://protocol-errata-reserve-genlayer.vercel.app in a fresh browser session.
+2. Confirm the Overview page shows the product name, Projects category, and GenLayer Explorer link.
+3. Open Start.
+4. Connect a funded EVM wallet if you want to submit a live Studionet write.
+5. Create a reserve with exactly 2 GEN, one implementer wallet address, and a locked RFC claim.
+6. Open Reviews and submit an official RFC Editor errata URL for the active reserve.
+7. Wait for finality and reload canonical state.
+8. Open History, select View case, and confirm the validator outcome and GEN consequence.
+9. Open the GenLayer Explorer contract link and confirm the contract page loads.
+
 ## Local Checks
 
 ```powershell

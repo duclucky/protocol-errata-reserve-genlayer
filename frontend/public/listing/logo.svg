@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">ProtocolErrataReserve logo</title>
+  <desc id="desc">A teal shield containing an RFC document and a blue reserve coin.</desc>
+  <rect width="96" height="96" rx="18" fill="#F0FDFA"/>
+  <path d="M48 12 76 23v21c0 18-11 32-28 40-17-8-28-22-28-40V23l28-11Z" fill="#0F766E"/>
+  <path d="M35 27h21l9 9v25H35V27Z" fill="#FFFFFF"/>
+  <path d="M56 27v10h9" fill="none" stroke="#0369A1" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M42 44h17M42 53h14" stroke="#134E4A" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="65" cy="65" r="13" fill="#0369A1" stroke="#FFFFFF" stroke-width="4"/>
+  <path d="M60 65h10M65 60v10" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+</svg>
