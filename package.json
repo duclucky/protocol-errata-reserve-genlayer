@@ -1,0 +1,32 @@
+{
+  "name": "protocol-errata-reserve",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "frontend"
+  ],
+  "scripts": {
+    "check": "npm run check:contract && npm run check:tests && npm run check:deployment && npm run check:frontend && npm run precheck",
+    "check:contract": "set PYTHONUTF8=1&& .venv\\Scripts\\genvm-lint.exe check contracts/protocol_errata_reserve.py",
+    "check:tests": ".venv\\Scripts\\python.exe -m pytest tests -q",
+    "check:deployment": "node --test tests/deployment/*.test.mjs",
+    "check:frontend": "npm --workspace frontend test && npm --workspace frontend run typecheck && npm --workspace frontend run build",
+    "precheck": "node scripts/precheck.mjs",
+    "lint:contracts": ".venv\\Scripts\\genvm-lint.exe check contracts/protocol_errata_reserve.py",
+    "test:direct": ".venv\\Scripts\\python.exe -m pytest tests/direct -q",
+    "test:frontend": "npm --workspace frontend test",
+    "typecheck": "npm --workspace frontend run typecheck",
+    "build": "npm --workspace frontend run build",
+    "studionet:inspect": "node scripts/studionet.mjs inspect",
+    "studionet:deploy": "node scripts/studionet.mjs deploy",
+    "studionet:lifecycle": "node scripts/studionet.mjs lifecycle"
+  },
+  "dependencies": {
+    "genlayer-js": "1.1.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractName": "ProtocolErrataReserve",
+  "contractAddress": "0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc",
+  "deployTxHash": "0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246",
+  "deployReceipt": {
+    "hash": "0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246",
+    "finality": "FINALIZED",
+    "executionStatus": "SUCCESS",
+    "consensus": "UNKNOWN",
+    "contractAddress": "0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc"
+  },
+  "deployedAt": "2026-09-04T17:49:54.232Z",
+  "explorerUrl": "https://explorer-studio.genlayer.com/address/0xEB12772823ab2d4F14fEF52A5d452C01FE514dbc",
+  "sponsorAddress": "0xC495ef51618D03267A1f227aFe5b27B38c748272"
+}
