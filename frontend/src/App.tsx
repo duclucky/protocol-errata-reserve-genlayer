@@ -4,6 +4,8 @@ import {Header} from './components/Header';
 import {TransactionStatus} from './components/TransactionStatus';
 import {WalletModal} from './components/WalletModal';
 import {WalletProvider, useWallet} from './context/WalletContext';
+import {CaseDetailPage} from './pages/CaseDetailPage';
+import {HistoryPage} from './pages/HistoryPage';
 import {productFacts} from './productCopy';
 import {parseRoute, type AppRoute} from './routing';
 import {ContractAdapter} from './services/contractAdapter';
@@ -84,10 +86,10 @@ function RouteContent({route, caseId, navigate, reload, reserves, reviews, accou
 }) {
   if (route === 'start') return <SimplePage title="Start a remediation reserve" body="Create a 2 GEN reserve for a specific RFC claim and implementer." />;
   if (route === 'reviews') return <SimplePage title="Submit official errata" body="Submit an official RFC Editor erratum for an active reserve." />;
-  if (route === 'history') return <SimplePage title="Reserve history" body={`${reserves.length} reserves and ${reviews.length} reviews loaded from canonical contract views.`} />;
+  if (route === 'history') return <HistoryPage reserves={reserves} reviews={reviews} onNavigate={navigate} />;
   if (route === 'account') return <SimplePage title="Wallet and credits" body={`Pending credits: ${accounting?.credits_pending_gen || '0.00'} GEN.`} />;
   if (route === 'help') return <SimplePage title="Try ProtocolErrataReserve" body="Follow the app from overview, start, reviews, history, case detail, and account." />;
-  if (route === 'case') return <SimplePage title={caseId || 'Case detail'} body="Review the canonical status and finalized consequence for this reserve." />;
+  if (route === 'case') return <CaseDetailPage caseId={caseId} reserves={reserves} reviews={reviews} />;
   return (
     <section className="hero-panel">
       <div>
