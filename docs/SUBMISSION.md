@@ -18,16 +18,16 @@ ProtocolErrataReserve: Official RFC Errata Impact Reserves
 
 ## Notes / Description
 
-ProtocolErrataReserve is a GenLayer dApp for funding protocol remediation when official RFC Editor errata materially affect a locked conformance claim. A sponsor locks exactly 2 GEN behind an RFC ID, section, implementer, claim text, version and expiry. The implementer submits an official `rfc-editor.org` erratum URL. Validators independently fetch the authoritative RFC evidence, verify the locked bindings, and judge whether the erratum is `MATERIAL_IMPACT`, `NO_MATERIAL_IMPACT`, or `UNVERIFIABLE`. A material-impact verdict credits 1 GEN to the implementer; unverifiable or non-material evidence is non-penalizing. The reusable interface supports reserves, reviews, canonical accounting and pull withdrawals. Source, local tests, CI, Studionet deploy, finalized lifecycle evidence and live frontend reads are verified.
+ProtocolErrataReserve is a GenLayer dApp for funding protocol remediation when official RFC Editor errata materially affect a locked conformance claim. A sponsor locks exactly 2 GEN behind an RFC ID, section, implementer, claim text, version and expiry. The implementer submits an official `rfc-editor.org` erratum URL. Validators independently fetch the authoritative RFC evidence, verify the locked bindings, and judge whether the erratum is `MATERIAL_IMPACT`, `NO_MATERIAL_IMPACT`, or `UNVERIFIABLE`. A material-impact verdict credits 1 GEN to the implementer; the same errata ID or canonical URL cannot create another material credit in that reserve under a new review ID. Unverifiable or non-material evidence remains non-penalizing and retryable. The reusable interface supports reserves, reviews, canonical accounting and pull withdrawals. Source, local tests, CI, Studionet deploy, finalized lifecycle evidence and live frontend reads are verified.
 
 Character count: 824
 
 ## Evidence
 
 - Repository: https://github.com/duclucky/protocol-errata-reserve-genlayer
-- Primary contract explorer: https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
+- Primary contract explorer: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
-- Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788545982371.json`
+- Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788644115284.json`
 - Live browser evidence: `tests/browser/live-product.test.mjs`, `docs/evidence/studionet/live-prod-desktop.png`, `docs/evidence/studionet/live-prod-mobile.png`
 - Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/workflows/check.yml?query=branch%3Amain
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
@@ -48,15 +48,15 @@ Character count: 824
 
 - Contracts: 1, `ProtocolErrataReserve`
 - Contract methods: 12 total, 6 view, 6 write
-- Direct tests: 12 passed
+- Direct tests: 15 passed
 - Deployment parser tests: 6 passed
-- Frontend tests: 13 passed
+- Frontend tests: 16 passed
 - Browser production check: desktop and mobile passed with no console/request errors or horizontal overflow
 - Network: Studionet, chain ID `61999`
-- Contract: `0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90`
-- Deploy transaction: `0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246`
-- Adjudication transaction: `0x9041670c346668cf0e7b7414af0fe6925076de2b344b01af20db4486af6e6ed0`
-- Lifecycle: reserve `reserve-rfc2865-mtn91esz`, review `review-9034-mtn91esz`, verdict `MATERIAL_IMPACT`, 1.00 GEN implementer credit pending, accounting balanced.
+- Contract: `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe`
+- Deploy transaction: `0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f`
+- Adjudication transaction: `0xfd66dceedffbd96e4a3984f58f7bcdcc14b1086caf88673b965f43982fe0b225`
+- Lifecycle: reserve `reserve-rfc2865-mtowfw3s`, review `review-9034-mtowfw3s`, verdict `MATERIAL_IMPACT`, 1.00 GEN implementer credit pending, accounting balanced.
 
 ## Honest Limitations / Pending
 
@@ -78,4 +78,4 @@ This is a Projects submission because the deliverable is a complete dApp with a 
 
 **Live app:** https://protocol-errata-reserve-genlayer.vercel.app
 
-**Contract (studionet):** 0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
+**Contract (studionet):** 0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe

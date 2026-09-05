@@ -1,0 +1,46 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
+  "reserves": [
+    {
+      "reserve_id": "reserve-rfc2865-mtowfw3s",
+      "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "IMPACT_SETTLED",
+      "reserve_balance_gen": "1.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788643976,
+      "expires_at": 1791235975,
+      "review_count": 1
+    }
+  ],
+  "reviews": [
+    {
+      "review_id": "review-9034-mtowfw3s",
+      "reserve_id": "reserve-rfc2865-mtowfw3s",
+      "errata_id": "9034",
+      "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+      "status": "MATERIAL_IMPACT",
+      "verdict": "MATERIAL_IMPACT",
+      "rationale": "The official erratum (ID 9034) explicitly changes the protocol requirement from allowing Access-Requests without a Message-Authenticator to making the attribute mandatory (MUST). This directly contradicts the locked claim, invalidating the implementation's current permissive state.",
+      "settlement_credit_gen": "1.00",
+      "created_at": 1788644017,
+      "review_deadline": 1788903217,
+      "finalized_at": 1788644058
+    }
+  ],
+  "accounting": {
+    "total_received_gen": "2.00",
+    "reserve_balances_gen": "1.00",
+    "credits_pending_gen": "1.00",
+    "total_withdrawn_gen": "0.00",
+    "accounted_total_gen": "2.00",
+    "balanced": true
+  },
+  "readAt": "2026-09-05T21:35:15.284Z"
+}

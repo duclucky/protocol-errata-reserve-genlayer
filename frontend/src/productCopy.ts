@@ -16,7 +16,7 @@ export const productFacts = {
   oneLiner: 'Fund protocol remediation when official RFC errata materially affect a locked conformance claim.',
   shortDescription: 'For protocol sponsors and implementers, ProtocolErrataReserve locks a 2 GEN reserve, lets GenLayer validators judge official RFC Editor errata, and credits remediation when the erratum materially changes the claim.',
   liveUrl: 'https://protocol-errata-reserve-genlayer.vercel.app',
-  explorerUrl: 'https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90',
+  explorerUrl: 'https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe',
 };
 
 export const howToTrySteps = [

@@ -8,7 +8,7 @@
 - Logo: `docs/listing/logo.svg`
 - One-liner: Fund protocol remediation when official RFC errata materially affect a locked conformance claim.
 - Website: https://protocol-errata-reserve-genlayer.vercel.app
-- Contract: https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
+- Contract: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
 
 ## Fresh Reviewer Steps
 
@@ -21,6 +21,7 @@
 7. Approve the Studionet network switch/add request, enter a valid implementer address, keep the prefilled RFC2865 section 4.1 claim, and click `Create reserve with 2 GEN`.
 8. Open Reviews, select the created reserve, keep errata ID `9034` and URL `https://www.rfc-editor.org/errata/eid9034`, then click `Submit official erratum`.
 9. After finality, use the decision action, wait for validator finality, reload canonical state, and verify the result in History and View case.
+10. If you submit the same errata ID and URL again under a new review ID for that reserve, the contract rejects it before creating a second review or credit; the first `1.00 GEN` credit and balanced accounting remain unchanged.
 
 ## Local Checks
 
@@ -34,9 +35,9 @@ Expected high-signal output includes:
 ```text
 Project protocol-errata-reserve -Category projects
 NO BLOCKER
-12 passed
+15 passed
 tests 6
-Tests 13 passed
+Tests 16 passed
 built
 ```
 
@@ -51,7 +52,7 @@ Expected state summary:
 
 ```json
 {
-  "contractAddress": "0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90",
+  "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
   "reserves": 1,
   "reviews": 1,
   "accounting": {

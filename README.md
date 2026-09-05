@@ -19,15 +19,15 @@ https://protocol-errata-reserve-genlayer.vercel.app
 
 - Network: GenLayer Studionet
 - Chain ID: `61999`
-- Contract: `0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90`
-- Explorer: https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
-- Deploy transaction: `0x48d6dd8118b7e260403cd35821b0c39ec131a13b5085b22b955f0d3eb4c4f246`
+- Contract: `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe`
+- Explorer: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
+- Deploy transaction: `0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f`
 
 ## What It Does
 
 A sponsor locks exactly 2 GEN behind a specific RFC conformance claim. An implementer submits an official RFC Editor erratum URL. GenLayer validators fetch the authoritative RFC Editor evidence and decide whether the erratum materially affects the locked claim. A material-impact verdict credits 1 GEN to the implementer; no-material-impact or unverifiable evidence remains non-penalizing.
 
-The current Studionet lifecycle used RFC2865 section 4.1 and RFC Editor erratum 9034. The finalized verdict is `MATERIAL_IMPACT`; canonical accounting shows 2.00 GEN received, 1.00 GEN still reserved, 1.00 GEN pending implementer credit, and balanced accounting.
+The current Studionet lifecycle used RFC2865 section 4.1 and RFC Editor erratum 9034. The finalized verdict is `MATERIAL_IMPACT`; canonical accounting shows 2.00 GEN received, 1.00 GEN still reserved, 1.00 GEN pending implementer credit, and balanced accounting. An errata ID or canonical RFC Editor URL can create at most one 1 GEN material credit per reserve, even when resubmitted under a new review ID after settlement. Non-material and unverifiable outcomes remain retryable, and the same erratum remains independent in another reserve.
 
 ## Why GenLayer
 
@@ -74,7 +74,7 @@ npm run check
 To run the frontend against the deployed contract, create `frontend/.env.local`:
 
 ```text
-VITE_CONTRACT_ADDRESS=0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
+VITE_CONTRACT_ADDRESS=0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
 VITE_GENLAYER_EXPLORER_URL=https://explorer-studio.genlayer.com
 ```
 
@@ -103,7 +103,7 @@ Deployment and lifecycle evidence is in `docs/evidence/studionet`.
 5. Open Reviews. Select an active reserve and submit the official RFC Editor errata URL, for example `https://www.rfc-editor.org/errata/eid9034`.
 6. Wait for the transaction state to finalize, then reload canonical state.
 7. Open History and then View case to check the validator outcome and GEN consequence.
-8. Open the contract on GenLayer Explorer: https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90
+8. Open the contract on GenLayer Explorer: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
 
 ## Verification
 
@@ -111,9 +111,9 @@ Fresh local verification:
 
 - `npm run check`: passed
 - GenVM lint: passed, `ProtocolErrataReserve`, 12 methods, 6 view, 6 write
-- Direct tests: 12 passed
+- Direct tests: 15 passed
 - Deployment parser tests: 6 passed
-- Frontend tests: 13 passed
+- Frontend tests: 16 passed
 - Frontend typecheck and production build: passed
 - Browser production check: desktop and mobile loaded finalized contract state with no console/request errors and no horizontal overflow (`npm run check:browser`)
 

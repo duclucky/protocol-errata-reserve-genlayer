@@ -1,7 +1,7 @@
 import {StatusPill, verdictLabel} from '../components/StatusPill';
 import type {Reserve, Review} from '../types';
 
-const explorerBase = 'https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90';
+const explorerBase = 'https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe';
 
 export function CaseDetailPage({caseId, reserves, reviews}: {caseId?: string; reserves: Reserve[]; reviews: Review[]}) {
   const reserve = reserves.find((item) => item.reserve_id === caseId) || reserves[0];

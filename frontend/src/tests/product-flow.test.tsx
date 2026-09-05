@@ -32,7 +32,7 @@ const reviews = [{
 
 vi.mock('../services/wallet', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../services/wallet')>()),
-  CONTRACT_ADDRESS: '0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90',
+  CONTRACT_ADDRESS: '0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe',
 }));
 
 vi.mock('../services/contractAdapter', () => ({

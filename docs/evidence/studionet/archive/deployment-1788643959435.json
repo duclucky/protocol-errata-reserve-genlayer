@@ -2,47 +2,47 @@
   "network": "studionet",
   "chainId": 61999,
   "contractName": "ProtocolErrataReserve",
-  "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
-  "deployTxHash": "0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f",
+  "contractAddress": "0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90",
+  "deployTxHash": "0xf40fac205b12864a5c03e707bb2c8d88ac5660e513f888284fbae2b6b0242d4d",
   "deployReceipt": {
-    "hash": "0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f",
+    "hash": "0xf40fac205b12864a5c03e707bb2c8d88ac5660e513f888284fbae2b6b0242d4d",
     "finality": "FINALIZED",
     "executionStatus": "SUCCESS",
     "consensus": "UNKNOWN",
-    "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe"
+    "contractAddress": "0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90"
   },
-  "deployedAt": "2026-09-05T21:32:39.437Z",
-  "explorerUrl": "https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
+  "deployedAt": "2026-09-04T22:31:22.994Z",
+  "explorerUrl": "https://explorer-studio.genlayer.com/address/0x66728CF94f7EFe60c159A54a3C804ffa2CF93f90",
   "sponsorAddress": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
   "lifecycle": {
-    "reserveId": "reserve-rfc2865-mtowfw3s",
-    "reviewId": "review-9034-mtowfw3s",
-    "createReserveTx": "0x4f6b49bce1e80cc65f04ebfdf2c5897e0300b4b28850768e04fa0ff7185aada8",
-    "openReviewTx": "0x17b19a0600ac1a54892de0a79e222039293258e59625bcde021c846d181bc81c",
-    "adjudicateTx": "0xfd66dceedffbd96e4a3984f58f7bcdcc14b1086caf88673b965f43982fe0b225",
+    "reserveId": "reserve-rfc2865-mtnj4woh",
+    "reviewId": "review-9034-mtnj4woh",
+    "createReserveTx": "0xdef39a60dd8be708c381bf641793bdb254589cfdf275052d043afbc31d0d6095",
+    "openReviewTx": "0x6af15173de138bf64b3153a58ce001f300c3a11907755c75d86f49eb3c3c9136",
+    "adjudicateTx": "0x952370134b534418cd29c0ec4cec0edbd32c28188bb3872cc6d282d8b78f1c22",
     "createReceipt": {
-      "hash": "0x4f6b49bce1e80cc65f04ebfdf2c5897e0300b4b28850768e04fa0ff7185aada8",
+      "hash": "0xdef39a60dd8be708c381bf641793bdb254589cfdf275052d043afbc31d0d6095",
       "finality": "FINALIZED",
       "executionStatus": "SUCCESS",
       "consensus": "UNKNOWN",
       "contractAddress": null
     },
     "openReceipt": {
-      "hash": "0x17b19a0600ac1a54892de0a79e222039293258e59625bcde021c846d181bc81c",
+      "hash": "0x6af15173de138bf64b3153a58ce001f300c3a11907755c75d86f49eb3c3c9136",
       "finality": "FINALIZED",
       "executionStatus": "SUCCESS",
       "consensus": "UNKNOWN",
       "contractAddress": null
     },
     "adjudicateReceipt": {
-      "hash": "0xfd66dceedffbd96e4a3984f58f7bcdcc14b1086caf88673b965f43982fe0b225",
+      "hash": "0x952370134b534418cd29c0ec4cec0edbd32c28188bb3872cc6d282d8b78f1c22",
       "finality": "FINALIZED",
       "executionStatus": "SUCCESS",
       "consensus": "UNKNOWN",
       "contractAddress": null
     },
     "finalReserve": {
-      "reserve_id": "reserve-rfc2865-mtowfw3s",
+      "reserve_id": "reserve-rfc2865-mtnj4woh",
       "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
       "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
       "rfc_id": "RFC2865",
@@ -52,22 +52,22 @@
       "status": "IMPACT_SETTLED",
       "reserve_balance_gen": "1.00",
       "material_credit_gen": "1.00",
-      "created_at": 1788643976,
-      "expires_at": 1791235975,
+      "created_at": 1788561163,
+      "expires_at": 1791153161,
       "review_count": 1
     },
     "finalReview": {
-      "review_id": "review-9034-mtowfw3s",
-      "reserve_id": "reserve-rfc2865-mtowfw3s",
+      "review_id": "review-9034-mtnj4woh",
+      "reserve_id": "reserve-rfc2865-mtnj4woh",
       "errata_id": "9034",
       "errata_url": "https://www.rfc-editor.org/errata/eid9034",
       "status": "MATERIAL_IMPACT",
       "verdict": "MATERIAL_IMPACT",
-      "rationale": "The official erratum (ID 9034) explicitly changes the protocol requirement from allowing Access-Requests without a Message-Authenticator to making the attribute mandatory (MUST). This directly contradicts the locked claim, invalidating the implementation's current permissive state.",
+      "rationale": "The erratum adds a new normative requirement in RFC2865 §4.1 that Access-Request packets MUST contain Message-Authenticator, which directly contradicts the locked claim that implementations accept valid client Access-Request packets without requiring that attribute.",
       "settlement_credit_gen": "1.00",
-      "created_at": 1788644017,
-      "review_deadline": 1788903217,
-      "finalized_at": 1788644058
+      "created_at": 1788561201,
+      "review_deadline": 1788820401,
+      "finalized_at": 1788561237
     },
     "implementerCredits": "1.00",
     "finalAccounting": {
@@ -78,6 +78,6 @@
       "accounted_total_gen": "2.00",
       "balanced": true
     },
-    "executedAt": "2026-09-05T21:35:07.983Z"
+    "executedAt": "2026-09-04T22:34:54.645Z"
   }
 }
