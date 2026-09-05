@@ -77,6 +77,120 @@ def test_material_impact_credits_implementer_once(direct_deploy, direct_vm, dire
         contract.adjudicate_review("review-eid9034")
 
 
+def test_same_errata_new_review_id_cannot_create_second_material_credit(
+    direct_deploy,
+    direct_vm,
+    direct_alice,
+    direct_bob,
+):
+    contract = direct_deploy("contracts/protocol_errata_reserve.py")
+    create_reserve(contract, direct_vm, direct_alice, direct_bob)
+    open_review(contract, direct_vm, direct_bob)
+    mock_official_errata(direct_vm)
+    mock_verdict(direct_vm, "MATERIAL_IMPACT")
+
+    direct_vm.sender = direct_alice
+    contract.adjudicate_review("review-eid9034")
+    direct_vm.clear_mocks()
+
+    direct_vm.sender = direct_bob
+    with pytest.raises(Exception, match="errata already credited for reserve"):
+        contract.open_review(
+            "review-eid9034-repeat",
+            RESERVE_ID,
+            "9034",
+            RFC_URL,
+        )
+
+    first_review = json.loads(contract.get_review("review-eid9034"))
+    reserve = json.loads(contract.get_reserve(RESERVE_ID))
+    accounting = json.loads(contract.get_accounting())
+
+    assert first_review["settlement_credit_gen"] == "1.00"
+    with pytest.raises(Exception, match="review not found"):
+        contract.get_review("review-eid9034-repeat")
+    assert reserve["review_count"] == 1
+    assert reserve["reserve_balance_gen"] == "1.00"
+    assert contract.get_credits(direct_bob) == "1.00"
+    assert accounting == {
+        "total_received_gen": "2.00",
+        "reserve_balances_gen": "1.00",
+        "credits_pending_gen": "1.00",
+        "total_withdrawn_gen": "0.00",
+        "accounted_total_gen": "2.00",
+        "balanced": True,
+    }
+
+
+def test_non_material_and_unverifiable_evidence_remain_retryable(
+    direct_deploy,
+    direct_vm,
+    direct_alice,
+    direct_bob,
+):
+    contract = direct_deploy("contracts/protocol_errata_reserve.py")
+
+    create_reserve(
+        contract,
+        direct_vm,
+        direct_alice,
+        direct_bob,
+        reserve_id="reserve-no-impact-retry",
+    )
+    open_review(
+        contract,
+        direct_vm,
+        direct_bob,
+        reserve_id="reserve-no-impact-retry",
+        review_id="review-no-impact-first",
+    )
+    mock_official_errata(direct_vm)
+    mock_verdict(direct_vm, "NO_MATERIAL_IMPACT")
+    contract.adjudicate_review("review-no-impact-first")
+    direct_vm.clear_mocks()
+
+    open_review(
+        contract,
+        direct_vm,
+        direct_bob,
+        reserve_id="reserve-no-impact-retry",
+        review_id="review-no-impact-retry",
+    )
+    assert json.loads(contract.get_review("review-no-impact-retry"))["status"] == "OPEN"
+    assert json.loads(contract.get_reserve("reserve-no-impact-retry"))["review_count"] == 2
+
+    create_reserve(
+        contract,
+        direct_vm,
+        direct_alice,
+        direct_bob,
+        reserve_id="reserve-unverifiable-retry",
+    )
+    open_review(
+        contract,
+        direct_vm,
+        direct_bob,
+        reserve_id="reserve-unverifiable-retry",
+        review_id="review-unverifiable-first",
+    )
+    direct_vm.mock_web(
+        r".*rfc-editor\.org/errata/eid9034.*",
+        {"method": "GET", "status": 500, "body": ""},
+    )
+    contract.adjudicate_review("review-unverifiable-first")
+    direct_vm.clear_mocks()
+
+    open_review(
+        contract,
+        direct_vm,
+        direct_bob,
+        reserve_id="reserve-unverifiable-retry",
+        review_id="review-unverifiable-retry",
+    )
+    assert json.loads(contract.get_review("review-unverifiable-retry"))["status"] == "OPEN"
+    assert json.loads(contract.get_reserve("reserve-unverifiable-retry"))["review_count"] == 2
+
+
 def test_accounting_counts_shared_actor_credits_once_across_reserves(direct_deploy, direct_vm, direct_alice, direct_bob):
     contract = direct_deploy("contracts/protocol_errata_reserve.py")
 

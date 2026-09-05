@@ -111,6 +111,8 @@ class ProtocolErrataReserve(gl.Contract):
     review_keys: DynArray[str]
     total_received: bigint
     total_withdrawn: bigint
+    credited_errata_ids: TreeMap[str, bool]
+    credited_errata_urls: TreeMap[str, bool]
 
     def __init__(self) -> None:
         pass
@@ -138,6 +140,34 @@ class ProtocolErrataReserve(gl.Contract):
 
     def _official_url(self, errata_id: str, url: str) -> bool:
         return _host(url) == "www.rfc-editor.org" and ("/errata/eid" + errata_id) in url
+
+    def _credited_errata_id_key(self, reserve_id: str, errata_id: str) -> str:
+        return reserve_id + "|id|" + errata_id
+
+    def _credited_errata_url_key(self, reserve_id: str, errata_id: str) -> str:
+        canonical_url = "https://www.rfc-editor.org/errata/eid" + errata_id
+        return reserve_id + "|url|" + canonical_url
+
+    def _has_material_credit_for_evidence(
+        self,
+        reserve_id: str,
+        errata_id: str,
+    ) -> bool:
+        id_key = self._credited_errata_id_key(reserve_id, errata_id)
+        url_key = self._credited_errata_url_key(reserve_id, errata_id)
+        id_credited = id_key in self.credited_errata_ids and self.credited_errata_ids[id_key]
+        url_credited = url_key in self.credited_errata_urls and self.credited_errata_urls[url_key]
+        return id_credited or url_credited
+
+    def _mark_material_credit_for_evidence(
+        self,
+        reserve_id: str,
+        errata_id: str,
+    ) -> None:
+        id_key = self._credited_errata_id_key(reserve_id, errata_id)
+        url_key = self._credited_errata_url_key(reserve_id, errata_id)
+        self.credited_errata_ids[id_key] = True
+        self.credited_errata_urls[url_key] = True
 
     def _official_fields_match(self, page_text: str, reserve: ReserveRecord, review: ReviewRecord) -> bool:
         if len(page_text) == 0:
@@ -219,6 +249,8 @@ class ProtocolErrataReserve(gl.Contract):
             raise gl.vm.UserError("invalid errata ID")
         if not self._official_url(errata_id, errata_url):
             raise gl.vm.UserError("review requires official RFC Editor errata URL")
+        if self._has_material_credit_for_evidence(reserve_id, errata_id):
+            raise gl.vm.UserError("errata already credited for reserve")
         if self._has_open_review(reserve_id):
             raise gl.vm.UserError("reserve already has an open review")
 
@@ -314,6 +346,7 @@ class ProtocolErrataReserve(gl.Contract):
                 verdict = "UNVERIFIABLE"
                 review.settlement_credit = bigint(0)
             else:
+                self._mark_material_credit_for_evidence(review.reserve_id, review.errata_id)
                 reserve.reserve_balance = reserve.reserve_balance - reserve.material_credit
                 review.settlement_credit = reserve.material_credit
                 reserve.status = "IMPACT_SETTLED"
