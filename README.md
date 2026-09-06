@@ -113,12 +113,13 @@ Fresh local verification:
 - GenVM lint: passed, `ProtocolErrataReserve`, 12 methods, 6 view, 6 write
 - Direct tests: 15 passed
 - Deployment parser tests: 6 passed
-- Frontend tests: 16 passed
+- Frontend tests: 17 passed
 - Frontend typecheck and production build: passed
 - Browser production check: desktop and mobile loaded finalized contract state with no console/request errors and no horizontal overflow (`npm run check:browser`)
+- Live Chrome wallet proof: wallet `0xbd733bc56ec4a55fa25c068b9306b0171335d199` signed `open_review` and `adjudicate_review`; resubmitting EID `9034` under a new review ID finalized with contract `ERROR` and produced no second review or credit.
 
 ## Honest Limits
 
-- Current browser proof verifies deployed contract reads and the same-origin IC RPC proxy. It does not claim a live browser-wallet write was signed by an installed wallet in this environment.
+- The live browser write path was signed with the implementer wallet for the second reserve. Reserve funding for that test used the configured sponsor signer because the browser wallet available for manual signing was the implementer account.
 - The first lifecycle script version did not save `create_reserve` and `open_review` hashes before an adjudication wait timeout. The adjudication hash was recovered, finalized, and the final state was read from canonical views.
 - Only RFC Editor errata are in scope for v1. W3C, WHATWG, IANA, package manifests, and SDK marketplace integrations are milestone headroom, not current claims.

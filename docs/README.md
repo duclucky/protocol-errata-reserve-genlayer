@@ -134,10 +134,11 @@ Frontend directives:
 - Live app: `https://protocol-errata-reserve-genlayer.vercel.app`
 - Deploy transaction: `0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f`
 - Adjudication transaction: `0xfd66dceedffbd96e4a3984f58f7bcdcc14b1086caf88673b965f43982fe0b225`
+- Live browser duplicate proof: `0x89f82ca501a6ad16eadae2e597f6e720e3551dfa696219b37196cfdee2e3117e` finalized with `executionStatus: ERROR`; canonical state remained balanced with no second review or credit.
 - Reserve: `reserve-rfc2865-mtowfw3s`
 - Review: `review-9034-mtowfw3s`
 - Verdict: `MATERIAL_IMPACT`
-- Accounting: 2.00 GEN received, 1.00 GEN reserve balance, 1.00 GEN pending implementer credit, balanced `true`.
-- Evidence files: `docs/evidence/studionet/deployment.json`, latest `docs/evidence/studionet/state-*.json`, `browser-desktop.png`, `browser-mobile.png`.
+- Accounting snapshot after the live browser regression: 6.00 GEN received, 4.00 GEN reserve balance, 2.00 GEN pending implementer credit, balanced `true`.
+- Evidence files: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/live-duplicate-credit-proof.json`, latest `docs/evidence/studionet/state-*.json`, `browser-desktop.png`, `browser-mobile.png`.
 
 The first lifecycle script run reached `create_reserve` and `open_review`, then timed out while waiting for `adjudicate_review` finality. That pre-resume script version had not yet saved create/open hashes. The adjudication hash above was recovered from the timeout output, finalized with `wait-tx`, and the final reserve/review/accounting state was read from canonical view methods.

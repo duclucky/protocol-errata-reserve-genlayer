@@ -17,9 +17,11 @@ function delay(ms: number) {
 }
 
 function receiptStatus(receipt: any) {
+  const leaderReceipt = receipt?.consensus_data?.leader_receipt?.[0] || {};
   const execution = String(receipt?.executionStatus || receipt?.execution_status || receipt?.txExecutionResultName || receipt?.execution?.status || receipt?.result?.status || '').toUpperCase();
+  const leaderExecution = String(leaderReceipt.execution_result || '').toUpperCase();
   const finality = String(receipt?.finality || receipt?.statusName || receipt?.status_name || receipt?.status || '').toUpperCase();
-  return {execution, finality};
+  return {execution: execution || leaderExecution, finality};
 }
 
 export class TransactionTracker {
@@ -47,9 +49,10 @@ export class TransactionTracker {
   }
 
   async execute(write: () => Promise<string>, readReceipt: (hash: string) => Promise<any>) {
+    let hash: string | undefined;
     try {
       this.update({phase: 'wallet', message: 'Review the transaction in the selected wallet.'});
-      const hash = await write();
+      hash = await write();
       if (!/^0x[0-9a-fA-F]+$/.test(hash)) throw new Error('Wallet returned an invalid transaction hash.');
       this.update({phase: 'submitted', message: 'Transaction submitted to Studionet.', hash});
       for (let attempt = 0; attempt < this.pollAttempts; attempt += 1) {
@@ -67,7 +70,7 @@ export class TransactionTracker {
       return hash;
     } catch (error) {
       const detail = walletError(error);
-      this.update({phase: detail.code === 4001 ? 'rejected' : 'failed', message: detail.message});
+      this.update({phase: detail.code === 4001 ? 'rejected' : 'failed', message: detail.message, ...(hash ? {hash} : {})});
       throw error;
     }
   }

@@ -1,0 +1,21 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
+  "txHash": "0x89f82ca501a6ad16eadae2e597f6e720e3551dfa696219b37196cfdee2e3117e",
+  "finality": "FINALIZED",
+  "executionStatus": "ERROR",
+  "uiStatus": "failed",
+  "expectedError": "errata already credited for reserve",
+  "stateAfter": {
+    "reserves": 3,
+    "reviews": 2,
+    "total_received_gen": "6.00",
+    "reserve_balances_gen": "4.00",
+    "credits_pending_gen": "2.00",
+    "total_withdrawn_gen": "0.00",
+    "accounted_total_gen": "6.00",
+    "balanced": true
+  },
+  "verifiedAt": "2026-09-06T14:48:58.894Z"
+}

@@ -28,14 +28,14 @@ Character count: 824
 - Primary contract explorer: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
 - Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788644115284.json`
-- Live browser evidence: `tests/browser/live-product.test.mjs`, `docs/evidence/studionet/live-prod-desktop.png`, `docs/evidence/studionet/live-prod-mobile.png`
+- Live browser evidence: `tests/browser/live-product.test.mjs`, `docs/evidence/studionet/live-prod-desktop.png`, `docs/evidence/studionet/live-prod-mobile.png`, `docs/evidence/studionet/live-duplicate-credit-proof.json`
 - Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/33994021325
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
 
 ## How To Try It
 
 1. Open https://protocol-errata-reserve-genlayer.vercel.app in a fresh browser session.
-2. On Overview, wait for canonical state to load, then confirm `1` active record, `1` material outcome, and `1.00 GEN` remediation credit ready.
+2. On Overview, wait for canonical state to load, then confirm the live Studionet snapshot: `3` reserves, `2` material outcomes, and `2.00 GEN` remediation credit ready.
 3. Open History, select `RFC2865 section 4.1`, and click View case.
 4. Confirm `Material impact settled`, `1.00 GEN implementer credit`, the RFC Editor EID 9034 link, and the GenLayer Explorer link.
 5. Open the contract link and confirm the Studionet contract page loads.
@@ -50,7 +50,7 @@ Character count: 824
 - Contract methods: 12 total, 6 view, 6 write
 - Direct tests: 15 passed
 - Deployment parser tests: 6 passed
-- Frontend tests: 16 passed
+- Frontend tests: 17 passed
 - Browser production check: desktop and mobile passed with no console/request errors or horizontal overflow
 - Network: Studionet, chain ID `61999`
 - Contract: `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe`
@@ -60,7 +60,7 @@ Character count: 824
 
 ## Honest Limitations / Pending
 
-- Browser production proof verifies deployed contract reads and the complete read-only reviewer path through the Vercel same-origin GenLayer RPC rewrite. It does not claim a live browser-wallet write signed by an installed extension during this run.
+- Live Chrome wallet proof completed for the implementer account: `open_review` and `adjudicate_review` were user-signed; resubmitting EID `9034` under a new review ID finalized with `executionStatus: ERROR`, while canonical state remained `reviews: 2`, `6.00 GEN` received, `4.00 GEN` reserved, `2.00 GEN` pending credits, `balanced: true`.
 - CI uses artifact-independent GenVM AST lint plus tests/build because clean GitHub runners received 404 when downloading the pinned GenVM validation artifact. Full `genvm-lint check` is verified locally and the same source is deployed on Studionet.
 - Only RFC Editor errata are in scope for v1; other standards bodies and package ecosystem integrations are milestone headroom.
 
