@@ -29,7 +29,7 @@ Character count: 824
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
 - Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788644115284.json`
 - Live browser evidence: `tests/browser/live-product.test.mjs`, `docs/evidence/studionet/live-prod-desktop.png`, `docs/evidence/studionet/live-prod-mobile.png`, `docs/evidence/studionet/live-duplicate-credit-proof.json`
-- Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/33994021325
+- Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/34040468433
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
 
 ## How To Try It
