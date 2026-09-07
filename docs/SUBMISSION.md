@@ -29,7 +29,7 @@ Character count: 981
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
 - Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788787562062.json`, `docs/evidence/studionet/errata-identity-proof-1788787544610.json`
 - Live browser evidence: `npm run check:browser` passed on desktop/mobile; Chrome verified the wallet picker, selected account `...d199`, account menu/disconnect, canonical route reads/reload, and client-side rejection of `903 + eid9034` without a transaction.
-- Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/34129778179 (passed for `ff7ac780`).
+- Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/34130046632 (passed for `0ff376ce`).
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
 
 ## How To Try It
