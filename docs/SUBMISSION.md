@@ -18,9 +18,9 @@ ProtocolErrataReserve: Official RFC Errata Impact Reserves
 
 ## Notes / Description
 
-ProtocolErrataReserve is a GenLayer dApp for funding protocol remediation when official RFC Editor errata materially affect a locked conformance claim. A sponsor locks exactly 2 GEN behind an RFC ID, section, implementer, claim text, version and expiry. The implementer submits an official `rfc-editor.org` erratum URL. Validators independently fetch the authoritative RFC evidence, verify the locked bindings, and judge whether the erratum is `MATERIAL_IMPACT`, `NO_MATERIAL_IMPACT`, or `UNVERIFIABLE`. A material-impact verdict credits 1 GEN to the implementer; the same errata ID or canonical URL cannot create another material credit in that reserve under a new review ID. Unverifiable or non-material evidence remains non-penalizing and retryable. The reusable interface supports reserves, reviews, canonical accounting and pull withdrawals. Source, local tests, Studionet deploy, lifecycle evidence and live frontend reads are verified; CI awaits an authorized push.
+ProtocolErrataReserve is a GenLayer dApp for funding protocol remediation when official RFC Editor errata materially affect a locked conformance claim. A sponsor locks exactly 2 GEN behind an RFC ID, section, implementer, claim text, version and expiry. The implementer submits an official `rfc-editor.org` erratum URL. Validators independently fetch the authoritative RFC evidence, verify the locked bindings, and judge whether the erratum is `MATERIAL_IMPACT`, `NO_MATERIAL_IMPACT`, or `UNVERIFIABLE`. A material-impact verdict credits 1 GEN to the implementer; the same errata ID or canonical URL cannot create another material credit in that reserve under a new review ID. Unverifiable or non-material evidence remains non-penalizing and retryable. The reusable interface supports reserves, reviews, canonical accounting and pull withdrawals. Source, local tests, Studionet deploy, lifecycle evidence and live frontend reads are verified; CI passed on source commit `ff7ac780`.
 
-Character count: 972
+Character count: 981
 
 ## Evidence
 
@@ -29,7 +29,7 @@ Character count: 972
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
 - Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788787562062.json`, `docs/evidence/studionet/errata-identity-proof-1788787544610.json`
 - Live browser evidence: `npm run check:browser` passed on desktop/mobile; Chrome verified the wallet picker, selected account `...d199`, account menu/disconnect, canonical route reads/reload, and client-side rejection of `903 + eid9034` without a transaction.
-- Successful CI: pending final remediation push and exact-HEAD verification.
+- Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/34129778179 (passed for `ff7ac780`).
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
 
 ## How To Try It
