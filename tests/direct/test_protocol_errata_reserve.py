@@ -122,6 +122,167 @@ def test_same_errata_new_review_id_cannot_create_second_material_credit(
     }
 
 
+def test_prefix_mismatched_id_url_cannot_seed_second_material_credit(
+    direct_deploy,
+    direct_vm,
+    direct_alice,
+    direct_bob,
+):
+    contract = direct_deploy("contracts/protocol_errata_reserve.py")
+    create_reserve(contract, direct_vm, direct_alice, direct_bob)
+
+    direct_vm.sender = direct_bob
+    with pytest.raises(Exception, match="review requires exact RFC Editor errata ID and URL"):
+        contract.open_review(
+            "review-eid903-prefix",
+            RESERVE_ID,
+            "903",
+            RFC_URL,
+        )
+
+    assert json.loads(contract.get_all_reviews()) == []
+    assert json.loads(contract.get_reserve(RESERVE_ID))["review_count"] == 0
+    assert contract.get_credits(direct_bob) == "0.00"
+    before_valid_review = json.loads(contract.get_accounting())
+    assert before_valid_review == {
+        "total_received_gen": "2.00",
+        "reserve_balances_gen": "2.00",
+        "credits_pending_gen": "0.00",
+        "total_withdrawn_gen": "0.00",
+        "accounted_total_gen": "2.00",
+        "balanced": True,
+    }
+
+    open_review(contract, direct_vm, direct_bob)
+    mock_official_errata(direct_vm)
+    mock_verdict(direct_vm, "MATERIAL_IMPACT")
+    direct_vm.sender = direct_alice
+    contract.adjudicate_review("review-eid9034")
+    direct_vm.clear_mocks()
+
+    direct_vm.sender = direct_bob
+    with pytest.raises(Exception, match="errata already credited for reserve"):
+        contract.open_review(
+            "review-eid9034-repeat",
+            RESERVE_ID,
+            "9034",
+            RFC_URL,
+        )
+
+    reviews = json.loads(contract.get_all_reviews())
+    reserve = json.loads(contract.get_reserve(RESERVE_ID))
+    accounting = json.loads(contract.get_accounting())
+    assert len(reviews) == 1
+    assert reviews[0]["errata_id"] == "9034"
+    assert reserve["review_count"] == 1
+    assert reserve["reserve_balance_gen"] == "1.00"
+    assert contract.get_credits(direct_bob) == "1.00"
+    assert accounting == {
+        "total_received_gen": "2.00",
+        "reserve_balances_gen": "1.00",
+        "credits_pending_gen": "1.00",
+        "total_withdrawn_gen": "0.00",
+        "accounted_total_gen": "2.00",
+        "balanced": True,
+    }
+
+
+def test_open_review_rejects_noncanonical_errata_aliases_without_mutation(
+    direct_deploy,
+    direct_vm,
+    direct_alice,
+    direct_bob,
+):
+    contract = direct_deploy("contracts/protocol_errata_reserve.py")
+    reserve_id = "reserve-errata-url-aliases"
+    create_reserve(contract, direct_vm, direct_alice, direct_bob, reserve_id=reserve_id)
+    initial_reserve = json.loads(contract.get_reserve(reserve_id))
+    initial_accounting = json.loads(contract.get_accounting())
+
+    invalid_pairs = [
+        ("903", "https://www.rfc-editor.org/errata/eid9034"),
+        ("09034", "https://www.rfc-editor.org/errata/eid9034"),
+        ("9034", "https://www.rfc-editor.org/errata/eid09034"),
+        ("9034", "https://www.rfc-editor.org/errata/eid9034/"),
+        ("9034", "https://www.rfc-editor.org/errata/eid9034?source=x"),
+        ("9034", "https://www.rfc-editor.org/errata/eid9034#fragment"),
+        ("9034", "https://www.rfc-editor.org/errata/eid90340"),
+        ("9034", "https://www.rfc-editor.org:443/errata/eid9034"),
+        ("9034", "https://rfc-editor.org/errata/eid9034"),
+    ]
+
+    direct_vm.sender = direct_bob
+    for index, (errata_id, errata_url) in enumerate(invalid_pairs):
+        with pytest.raises(Exception, match="review requires exact RFC Editor errata ID and URL"):
+            contract.open_review(
+                "review-invalid-alias-" + str(index),
+                reserve_id,
+                errata_id,
+                errata_url,
+            )
+        assert json.loads(contract.get_all_reviews()) == []
+        assert json.loads(contract.get_reserve(reserve_id)) == initial_reserve
+        assert contract.get_credits(direct_bob) == "0.00"
+        assert json.loads(contract.get_accounting()) == initial_accounting
+
+    contract.open_review(
+        "review-exact-url",
+        reserve_id,
+        "9034",
+        RFC_URL,
+    )
+    assert json.loads(contract.get_review("review-exact-url"))["status"] == "OPEN"
+
+
+def test_authoritative_errata_field_does_not_prefix_match(
+    direct_deploy,
+    direct_vm,
+    direct_alice,
+    direct_bob,
+):
+    contract = direct_deploy("contracts/protocol_errata_reserve.py")
+    reserve_id = "reserve-authority-eid-boundary"
+    create_reserve(contract, direct_vm, direct_alice, direct_bob, reserve_id=reserve_id)
+    open_review(
+        contract,
+        direct_vm,
+        direct_bob,
+        reserve_id=reserve_id,
+        review_id="review-eid903-boundary",
+        errata_id="903",
+        url="https://www.rfc-editor.org/errata/eid903",
+    )
+    direct_vm.mock_web(
+        r".*rfc-editor\.org/errata/eid903$",
+        {
+            "method": "GET",
+            "status": 200,
+            "body": """
+            Errata-ID: 9034
+            RFC2865 Remote Authentication Dial In User Service
+            Status: Held for Document Update
+            Type: Technical
+            Section 4.1 says:
+            Access-Request packets MUST contain a Message-Authenticator attribute.
+            """,
+        },
+    )
+    mock_verdict(direct_vm, "MATERIAL_IMPACT")
+
+    direct_vm.sender = direct_alice
+    contract.adjudicate_review("review-eid903-boundary")
+
+    review = json.loads(contract.get_review("review-eid903-boundary"))
+    reserve = json.loads(contract.get_reserve(reserve_id))
+    accounting = json.loads(contract.get_accounting())
+    assert review["status"] == "UNVERIFIABLE"
+    assert review["settlement_credit_gen"] == "0.00"
+    assert reserve["reserve_balance_gen"] == "2.00"
+    assert contract.get_credits(direct_bob) == "0.00"
+    assert accounting["balanced"] is True
+    assert accounting["accounted_total_gen"] == "2.00"
+
+
 def test_non_material_and_unverifiable_evidence_remain_retryable(
     direct_deploy,
     direct_vm,

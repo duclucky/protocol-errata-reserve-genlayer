@@ -67,7 +67,7 @@ Out of scope:
 | Path | Canonical objective | Authority and bindings | Failure result | Consequences blocked |
 | --- | --- | --- | --- | --- |
 | `EA-RESERVE` | Lock sponsor, implementer, RFC ID, section, claim version, expiry and 2 GEN reserve | Sponsor transaction plus contract state | Revert | Reviews and credits |
-| `EA-RFC-ERRATUM` | Establish official erratum | `rfc-editor.org`; exact errata ID, RFC ID, status, type, section, original/corrected text, update date | `UNVERIFIABLE` | Material-impact credit |
+| `EA-RFC-ERRATUM` | Establish official erratum | Exact `https://www.rfc-editor.org/errata/eid<EID>` URL, URL-extracted EID equal to the supplied EID, and exact authoritative EID/RFC/section/status/type fields | `UNVERIFIABLE` | Material-impact credit |
 | `EA-VERDICT` | Interpret official erratum against locked claim | Independent leader/validator replay plus deterministic invariants | Revert or `UNVERIFIABLE` | Every value movement |
 
 ## Value destination matrix
@@ -75,7 +75,7 @@ Out of scope:
 | Value | Source | Locked state | Release/refund/forfeit destination | Duplicate/late behavior | Proof view |
 | --- | --- | --- | --- | --- | --- |
 | Reserve funding | Sponsor, exactly 2 GEN demo amount | `ACTIVE` reserve | 1 GEN to implementer on material impact; remaining sponsor refund after close | Duplicate reserve ID reverts | `get_reserve`, `get_accounting` |
-| Remediation credit | Reserve balance | `MATERIAL_IMPACT` review | Implementer credit, withdrawn by pull payment | First funded material settlement permanently locks the reserve-scoped errata ID and canonical URL; later review IDs cannot create another credit; second withdrawal reverts | `get_credits`, `get_reserve`, `get_accounting` |
+| Remediation credit | Reserve balance | `MATERIAL_IMPACT` review with exact EID/URL binding | Implementer credit, withdrawn by pull payment | First funded material settlement permanently locks the reserve-scoped validated EID and stored canonical URL; later review IDs or URL aliases cannot create another credit; second withdrawal reverts | `get_credits`, `get_reserve`, `get_accounting` |
 | Sponsor refund | Remaining reserve balance | `NO_MATERIAL_IMPACT`, `UNVERIFIABLE`, or `CLOSED` | Sponsor credit/withdrawal | Late duplicate close reverts | `get_credits`, `get_accounting` |
 
 ## Write-method safety cards
@@ -83,7 +83,7 @@ Out of scope:
 | Method | Caller | Allowed states | Forbidden states | Temporal gate | Idempotency | Value/accounting | Views | Negative tests |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `create_reserve` | Sponsor | New reserve | Existing reserve | `now < expires_at` | Unique ID | Receives exactly 2 GEN; locks claim | Reserve/accounting | Duplicate, wrong amount, same party, invalid RFC/section |
-| `open_review` | Implementer | `ACTIVE` reserve | Closed/finalized | `now < expires_at` | Unique review ID, no concurrent open review, and no evidence already materially credited in the same reserve | No value | Review/reserve | Wrong caller, wrong URL/host/ID, duplicate |
+| `open_review` | Implementer | `ACTIVE` reserve | Closed/finalized | `now < expires_at` | Unique review ID, exact URL-to-EID binding, no concurrent open review, and no evidence already materially credited in the same reserve | No value | Review/reserve | Wrong caller, partial ID, leading zero, URL suffix/query/fragment/port/host, duplicate |
 | `adjudicate_review` | Any | `OPEN` review | Finalized review | `now < review_deadline`; equality late | One settlement | Material credits 1 GEN to implementer; other outcomes no slash | Review/reserve/credits/accounting | Invalid source/LLM output, duplicate, late |
 | `recover_review_timeout` | Implementer or sponsor | `OPEN` review | Finalized review | `now >= review_deadline`; equality timeout | One settlement | Marks `UNVERIFIABLE`, no material credit | Review/reserve | Boundary -1/equal/+1, wrong state |
 | `close_reserve` | Sponsor | Active/final reserve, no open review | Already closed | `now >= expires_at` unless final review exists | One close | Credits remaining reserve to sponsor | Reserve/credits/accounting | Wrong caller, premature, open review, duplicate |

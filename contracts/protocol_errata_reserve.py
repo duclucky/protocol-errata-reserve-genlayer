@@ -10,6 +10,7 @@ GEN = bigint(1000000000000000000)
 RESERVE_AMOUNT = bigint(2000000000000000000)
 MATERIAL_CREDIT = bigint(1000000000000000000)
 REVIEW_WINDOW = 3 * 24 * 60 * 60
+RFC_ERRATA_URL_PREFIX = "https://www.rfc-editor.org/errata/eid"
 
 
 def _sender() -> Address:
@@ -41,12 +42,6 @@ def _format_gen(amount: bigint) -> str:
     whole = value // 1000000000000000000
     hundredths = (value % 1000000000000000000) // 10000000000000000
     return str(whole) + "." + str(hundredths).zfill(2)
-
-
-def _host(url: str) -> str:
-    if not url.startswith("https://"):
-        return ""
-    return url[8:].split("/", 1)[0].split(":", 1)[0].lower()
 
 
 def _normalize_rfc(value: str) -> str:
@@ -138,23 +133,33 @@ class ProtocolErrataReserve(gl.Contract):
                     return True
         return False
 
-    def _official_url(self, errata_id: str, url: str) -> bool:
-        return _host(url) == "www.rfc-editor.org" and ("/errata/eid" + errata_id) in url
+    def _canonical_errata_url(self, errata_id: str, errata_url: str) -> str:
+        if len(errata_id) == 0 or not errata_id.isdigit() or errata_id.startswith("0"):
+            return ""
+        if not errata_url.startswith(RFC_ERRATA_URL_PREFIX):
+            return ""
+        url_errata_id = errata_url[len(RFC_ERRATA_URL_PREFIX):]
+        if len(url_errata_id) == 0 or not url_errata_id.isdigit() or url_errata_id.startswith("0"):
+            return ""
+        canonical_url = RFC_ERRATA_URL_PREFIX + url_errata_id
+        if errata_url != canonical_url or errata_id != url_errata_id:
+            return ""
+        return canonical_url
 
     def _credited_errata_id_key(self, reserve_id: str, errata_id: str) -> str:
         return reserve_id + "|id|" + errata_id
 
-    def _credited_errata_url_key(self, reserve_id: str, errata_id: str) -> str:
-        canonical_url = "https://www.rfc-editor.org/errata/eid" + errata_id
+    def _credited_errata_url_key(self, reserve_id: str, canonical_url: str) -> str:
         return reserve_id + "|url|" + canonical_url
 
     def _has_material_credit_for_evidence(
         self,
         reserve_id: str,
         errata_id: str,
+        canonical_url: str,
     ) -> bool:
         id_key = self._credited_errata_id_key(reserve_id, errata_id)
-        url_key = self._credited_errata_url_key(reserve_id, errata_id)
+        url_key = self._credited_errata_url_key(reserve_id, canonical_url)
         id_credited = id_key in self.credited_errata_ids and self.credited_errata_ids[id_key]
         url_credited = url_key in self.credited_errata_urls and self.credited_errata_urls[url_key]
         return id_credited or url_credited
@@ -163,16 +168,32 @@ class ProtocolErrataReserve(gl.Contract):
         self,
         reserve_id: str,
         errata_id: str,
+        canonical_url: str,
     ) -> None:
         id_key = self._credited_errata_id_key(reserve_id, errata_id)
-        url_key = self._credited_errata_url_key(reserve_id, errata_id)
+        url_key = self._credited_errata_url_key(reserve_id, canonical_url)
         self.credited_errata_ids[id_key] = True
         self.credited_errata_urls[url_key] = True
+
+    def _contains_exact_errata_id(self, page_text: str, errata_id: str) -> bool:
+        markers = ("Errata-ID: ", "Errata ID ")
+        for marker in markers:
+            start = 0
+            expected = marker + errata_id
+            while True:
+                position = page_text.find(expected, start)
+                if position < 0:
+                    break
+                end = position + len(expected)
+                if end == len(page_text) or not page_text[end].isdigit():
+                    return True
+                start = end
+        return False
 
     def _official_fields_match(self, page_text: str, reserve: ReserveRecord, review: ReviewRecord) -> bool:
         if len(page_text) == 0:
             return False
-        if ("Errata-ID: " + review.errata_id) not in page_text and ("Errata ID " + review.errata_id) not in page_text:
+        if not self._contains_exact_errata_id(page_text, review.errata_id):
             return False
         if reserve.rfc_id not in page_text and _official_rfc_label(reserve.rfc_id) not in page_text:
             return False
@@ -247,9 +268,12 @@ class ProtocolErrataReserve(gl.Contract):
             raise gl.vm.UserError("reserve has expired")
         if not errata_id.isdigit():
             raise gl.vm.UserError("invalid errata ID")
-        if not self._official_url(errata_id, errata_url):
-            raise gl.vm.UserError("review requires official RFC Editor errata URL")
-        if self._has_material_credit_for_evidence(reserve_id, errata_id):
+        canonical_url = self._canonical_errata_url(errata_id, errata_url)
+        if len(canonical_url) == 0:
+            raise gl.vm.UserError(
+                "review requires exact RFC Editor errata ID and URL; official RFC Editor URL required"
+            )
+        if self._has_material_credit_for_evidence(reserve_id, errata_id, canonical_url):
             raise gl.vm.UserError("errata already credited for reserve")
         if self._has_open_review(reserve_id):
             raise gl.vm.UserError("reserve already has an open review")
@@ -259,7 +283,7 @@ class ProtocolErrataReserve(gl.Contract):
             review_id=review_id,
             reserve_id=reserve_id,
             errata_id=errata_id,
-            errata_url=errata_url,
+            errata_url=canonical_url,
             status="OPEN",
             verdict="PENDING",
             rationale="",
@@ -342,11 +366,25 @@ class ProtocolErrataReserve(gl.Contract):
             raise gl.vm.UserError("review already finalized")
         reserve = self.reserves[review.reserve_id]
         if verdict == "MATERIAL_IMPACT":
-            if reserve.reserve_balance < reserve.material_credit:
+            canonical_url = self._canonical_errata_url(review.errata_id, review.errata_url)
+            if len(canonical_url) == 0 or self._has_material_credit_for_evidence(
+                review.reserve_id,
+                review.errata_id,
+                canonical_url,
+            ):
                 verdict = "UNVERIFIABLE"
+                rationale = "Errata evidence identity was invalid or already credited."
+                review.settlement_credit = bigint(0)
+            elif reserve.reserve_balance < reserve.material_credit:
+                verdict = "UNVERIFIABLE"
+                rationale = "Reserve could not fund the material credit."
                 review.settlement_credit = bigint(0)
             else:
-                self._mark_material_credit_for_evidence(review.reserve_id, review.errata_id)
+                self._mark_material_credit_for_evidence(
+                    review.reserve_id,
+                    review.errata_id,
+                    canonical_url,
+                )
                 reserve.reserve_balance = reserve.reserve_balance - reserve.material_credit
                 review.settlement_credit = reserve.material_credit
                 reserve.status = "IMPACT_SETTLED"

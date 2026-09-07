@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import {ProgressStepper} from '../components/ProgressStepper';
 import type {ContractAdapter} from '../services/contractAdapter';
+import {canonicalErrataUrl} from '../services/errata';
 import type {Reserve, Review} from '../types';
 
 export function ReviewsPage({adapter, connected, reserves, reviews, onReload}: {
@@ -14,7 +15,14 @@ export function ReviewsPage({adapter, connected, reserves, reviews, onReload}: {
   const [errataId, setErrataId] = useState('9034');
   const [errataUrl, setErrataUrl] = useState('https://www.rfc-editor.org/errata/eid9034');
   const [error, setError] = useState('');
+  const [evidenceError, setEvidenceError] = useState('');
   const openReviews = reviews.filter((review) => review.status === 'OPEN');
+
+  const validateEvidence = () => {
+    const canonical = canonicalErrataUrl(errataId, errataUrl);
+    setEvidenceError(canonical ? '' : 'Errata ID must exactly match the EID in the canonical RFC Editor URL.');
+    return canonical;
+  };
 
   const run = async (action: () => Promise<unknown>) => {
     setError('');
@@ -36,13 +44,15 @@ export function ReviewsPage({adapter, connected, reserves, reviews, onReload}: {
       <ProgressStepper current={3} />
       <form className="panel" onSubmit={(event) => {
         event.preventDefault();
-        void run(() => adapter.openReview({reserveId, errataId, errataUrl}));
+        const canonicalUrl = validateEvidence();
+        if (!canonicalUrl) return;
+        void run(() => adapter.openReview({reserveId, errataId, errataUrl: canonicalUrl}));
       }}>
         <h2>Official evidence</h2>
         {error && <p role="alert" className="error">{error}</p>}
         <label>Reserve<select value={reserveId} onChange={(event) => setReserveId(event.target.value)}><option value="">Select reserve</option>{reserves.map((reserve) => <option key={reserve.reserve_id}>{reserve.reserve_id}</option>)}</select></label>
-        <label>Errata ID<input value={errataId} onChange={(event) => setErrataId(event.target.value)} /></label>
-        <label>RFC Editor errata URL<input value={errataUrl} onChange={(event) => setErrataUrl(event.target.value)} /></label>
+        <label>Errata ID<input value={errataId} onChange={(event) => setErrataId(event.target.value)} onBlur={validateEvidence} aria-invalid={Boolean(evidenceError)} aria-describedby={evidenceError ? 'errata-evidence-error' : undefined} /></label>
+        <label>RFC Editor errata URL<input value={errataUrl} onChange={(event) => setErrataUrl(event.target.value)} onBlur={validateEvidence} aria-invalid={Boolean(evidenceError)} aria-describedby={evidenceError ? 'errata-evidence-error' : undefined} />{evidenceError && <span id="errata-evidence-error" role="alert" className="error">{evidenceError}</span>}</label>
         <button disabled={!connected || !reserveId} className="primary">Submit official erratum</button>
       </form>
       <section className="panel">

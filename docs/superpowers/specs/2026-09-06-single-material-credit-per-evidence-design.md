@@ -28,17 +28,17 @@ Each key is scoped to one reserve:
 <reserve_id>|url|<canonical official URL>
 ```
 
-The canonical errata ID is the validated decimal string already stored on the review. The canonical URL is derived deterministically as:
+The contract accepts only the exact v1 URL grammar `https://www.rfc-editor.org/errata/eid<EID>`. It extracts the decimal EID from that URL, requires the extracted value to equal the caller-supplied `errata_id` exactly, rejects leading-zero aliases and any query, fragment, trailing path, suffix, port, or alternate host, and stores the returned canonical URL on the review. The canonical URL is therefore derived only after the URL-to-ID binding has been validated:
 
 ```text
-https://www.rfc-editor.org/errata/eid<errata_id>
+https://www.rfc-editor.org/errata/eid<validated_url_eid>
 ```
 
-Deriving the URL identity from the validated ID prevents query strings, fragments, trailing text, or alternate textual URL forms from bypassing the lock. The two indexes make both reviewer terms explicit while resolving to the same official evidence identity.
+The URL index receives that stored canonical URL directly; it is never reconstructed from a caller-supplied ID. Authoritative page matching must also compare the complete EID field rather than accepting an ID prefix. The two indexes make both reviewer terms explicit while resolving to the same official evidence identity.
 
 `open_review` will reject a new review when either scoped key is already marked, using the stable error `errata already credited for reserve`. This check runs before creating a `ReviewRecord`, incrementing `review_count`, or appending `review_keys`.
 
-`_settle_review` will mark both keys only on the successful `MATERIAL_IMPACT` path, after confirming the reserve can fund the 1 GEN material credit and immediately before debiting the reserve and crediting the implementer. `NO_MATERIAL_IMPACT`, `UNVERIFIABLE`, timeout recovery, and insufficient-funds fallback do not mark either key.
+`_settle_review` will revalidate the stored ID/URL pair and both credited indexes before any successful `MATERIAL_IMPACT` value mutation. It will mark both keys only after confirming the reserve can fund the 1 GEN material credit and immediately before debiting the reserve and crediting the implementer. `NO_MATERIAL_IMPACT`, `UNVERIFIABLE`, timeout recovery, malformed identity, duplicate identity, and insufficient-funds fallback do not create a credit or mark a key.
 
 ## State And Accounting Invariants
 
@@ -93,13 +93,14 @@ After one material settlement:
 The primary regression test will execute the reviewer scenario against real direct-mode contract behavior:
 
 1. Create one 2 GEN reserve.
-2. Open `review-eid9034` for errata ID `9034` and its official RFC Editor URL.
-3. Settle it as `MATERIAL_IMPACT`.
-4. Attempt to open `review-eid9034-repeat` with the same evidence.
-5. Assert rejection with `errata already credited for reserve`.
-6. Assert only the first review exists and `review_count` remains `1`.
-7. Assert implementer credit is `1.00 GEN` and reserve balance is `1.00 GEN`.
-8. Assert accounting is balanced: 2.00 GEN received, 1.00 GEN in reserves, 1.00 GEN pending credit, 0.00 GEN withdrawn, and 2.00 GEN accounted.
+2. Attempt `errata_id=903` with the authoritative URL ending in `eid9034` and assert rejection before any review state changes.
+3. Open `review-eid9034` for errata ID `9034` and its exact official RFC Editor URL.
+4. Settle it as `MATERIAL_IMPACT`.
+5. Attempt to open `review-eid9034-repeat` with the same validated evidence.
+6. Assert rejection with `errata already credited for reserve`.
+7. Assert only the first review exists and `review_count` remains `1`.
+8. Assert implementer credit is `1.00 GEN` and reserve balance is `1.00 GEN`.
+9. Assert accounting is balanced: 2.00 GEN received, 1.00 GEN in reserves, 1.00 GEN pending credit, 0.00 GEN withdrawn, and 2.00 GEN accounted.
 
 Additional focused tests will prove retries remain available after `NO_MATERIAL_IMPACT` and `UNVERIFIABLE`, and that the same errata can earn one credit in each of two different reserves.
 
