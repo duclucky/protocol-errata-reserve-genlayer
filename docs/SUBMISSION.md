@@ -28,7 +28,7 @@ Character count: 824
 - Primary contract explorer: https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
 - Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788787562062.json`, `docs/evidence/studionet/errata-identity-proof-1788787544610.json`
-- Live browser evidence: pending final Vercel deployment verification.
+- Live browser evidence: `npm run check:browser` passed on desktop/mobile; Chrome verified the wallet picker, selected account `...d199`, account menu/disconnect, canonical route reads/reload, and client-side rejection of `903 + eid9034` without a transaction.
 - Successful CI: pending final remediation push and exact-HEAD verification.
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
 
