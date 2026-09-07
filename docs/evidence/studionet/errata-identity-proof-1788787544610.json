@@ -1,0 +1,315 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractAddress": "0x8Cb815adec4363E8B69491B07b419b914A5DC2D5",
+  "sourceCommit": "ddafaf8b18a7d5721007cdd518934eeaed9f90a0",
+  "reserveId": "reserve-rfc2865-identity-proof-mtr9eolu",
+  "reviewIds": {
+    "invalidReviewId": "review-eid903-prefix-mtr9eolu",
+    "validReviewId": "review-eid9034-proof-mtr9eolu",
+    "duplicateReviewId": "review-eid9034-repeat-mtr9eolu"
+  },
+  "transactions": {
+    "createReserve": {
+      "hash": "0x500b50982e57652cbbc47e8ba3adf9167507c62ea3a2fec17a3755c07801485c",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS",
+      "consensus": "UNKNOWN",
+      "contractAddress": null
+    },
+    "invalidOpenReview": {
+      "summary": {
+        "hash": "0x1cc2a422d007be9090909f0bf69bd12edfd52d28df2480a0e1b145244be1e172",
+        "finality": "FINALIZED",
+        "executionStatus": "ERROR",
+        "consensus": "UNKNOWN",
+        "contractAddress": null
+      },
+      "expectedError": "review requires exact RFC Editor errata ID and URL",
+      "errorMatched": true
+    },
+    "validOpenReview": {
+      "hash": "0x865f4d49486fdef33815216abdbe0aa1160e465d0270afb271b185bd1307ee14",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS",
+      "consensus": "UNKNOWN",
+      "contractAddress": null
+    },
+    "adjudicate": {
+      "hash": "0x4d7573671a08b9e58e861cb7af78d83424b584f9bb0e54a2eb65307491677019",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS",
+      "consensus": "UNKNOWN",
+      "contractAddress": null
+    },
+    "duplicateOpenReview": {
+      "summary": {
+        "hash": "0x2d131e07b63d94fae688540bf9cb38a6915e6f534ff93fb030f9ceef6cc2d4e1",
+        "finality": "FINALIZED",
+        "executionStatus": "ERROR",
+        "consensus": "UNKNOWN",
+        "contractAddress": null
+      },
+      "expectedError": "errata already credited for reserve",
+      "errorMatched": true
+    }
+  },
+  "beforeAttack": {
+    "reserveCount": 3,
+    "reviewCount": 2,
+    "reserve": {
+      "reserve_id": "reserve-rfc2865-identity-proof-mtr9eolu",
+      "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "ACTIVE",
+      "reserve_balance_gen": "2.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788786688,
+      "expires_at": 1791378686,
+      "review_count": 0
+    },
+    "reviews": [
+      {
+        "review_id": "review-9034-mtr92c78",
+        "reserve_id": "reserve-rfc2865-mtr92c78",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The erratum introduces a mandatory requirement for Message-Authenticator in Access-Request packets, which directly impacts the core protocol behavior specified in RFC 2865 Section 4.1. This change affects how implementations handle authentication requests and addresses known security vulnerabilities (CVE-2024-3596), making it a material modification to the original specification.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788786150,
+        "review_deadline": 1789045350,
+        "finalized_at": 1788786187
+      },
+      {
+        "review_id": "review-eid9034-proof-mtr97mlo",
+        "reserve_id": "reserve-rfc2865-identity-proof-mtr97mlo",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The locked claim says implementations may accept Access-Request packets from valid clients without Message-Authenticator, but the erratum for RFC2865 §4.1 adds a normative requirement that Access-Request packets MUST contain Message-Authenticator. That directly changes acceptance conditions and contradicts the claim.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788786445,
+        "review_deadline": 1789045645,
+        "finalized_at": 1788786486
+      }
+    ],
+    "implementerCredits": "2.00",
+    "accounting": {
+      "total_received_gen": "6.00",
+      "reserve_balances_gen": "4.00",
+      "credits_pending_gen": "2.00",
+      "total_withdrawn_gen": "0.00",
+      "accounted_total_gen": "6.00",
+      "balanced": true
+    }
+  },
+  "afterInvalidAttack": {
+    "reserveCount": 3,
+    "reviewCount": 2,
+    "reserve": {
+      "reserve_id": "reserve-rfc2865-identity-proof-mtr9eolu",
+      "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "ACTIVE",
+      "reserve_balance_gen": "2.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788786688,
+      "expires_at": 1791378686,
+      "review_count": 0
+    },
+    "reviews": [
+      {
+        "review_id": "review-9034-mtr92c78",
+        "reserve_id": "reserve-rfc2865-mtr92c78",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The erratum introduces a mandatory requirement for Message-Authenticator in Access-Request packets, which directly impacts the core protocol behavior specified in RFC 2865 Section 4.1. This change affects how implementations handle authentication requests and addresses known security vulnerabilities (CVE-2024-3596), making it a material modification to the original specification.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788786150,
+        "review_deadline": 1789045350,
+        "finalized_at": 1788786187
+      },
+      {
+        "review_id": "review-eid9034-proof-mtr97mlo",
+        "reserve_id": "reserve-rfc2865-identity-proof-mtr97mlo",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The locked claim says implementations may accept Access-Request packets from valid clients without Message-Authenticator, but the erratum for RFC2865 §4.1 adds a normative requirement that Access-Request packets MUST contain Message-Authenticator. That directly changes acceptance conditions and contradicts the claim.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788786445,
+        "review_deadline": 1789045645,
+        "finalized_at": 1788786486
+      }
+    ],
+    "implementerCredits": "2.00",
+    "accounting": {
+      "total_received_gen": "6.00",
+      "reserve_balances_gen": "4.00",
+      "credits_pending_gen": "2.00",
+      "total_withdrawn_gen": "0.00",
+      "accounted_total_gen": "6.00",
+      "balanced": true
+    }
+  },
+  "afterSettlement": {
+    "reserveCount": 3,
+    "reviewCount": 3,
+    "reserve": {
+      "reserve_id": "reserve-rfc2865-identity-proof-mtr9eolu",
+      "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "IMPACT_SETTLED",
+      "reserve_balance_gen": "1.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788786688,
+      "expires_at": 1791378686,
+      "review_count": 1
+    },
+    "reviews": [
+      {
+        "review_id": "review-9034-mtr92c78",
+        "reserve_id": "reserve-rfc2865-mtr92c78",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The erratum introduces a mandatory requirement for Message-Authenticator in Access-Request packets, which directly impacts the core protocol behavior specified in RFC 2865 Section 4.1. This change affects how implementations handle authentication requests and addresses known security vulnerabilities (CVE-2024-3596), making it a material modification to the original specification.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788786150,
+        "review_deadline": 1789045350,
+        "finalized_at": 1788786187
+      },
+      {
+        "review_id": "review-eid9034-proof-mtr97mlo",
+        "reserve_id": "reserve-rfc2865-identity-proof-mtr97mlo",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The locked claim says implementations may accept Access-Request packets from valid clients without Message-Authenticator, but the erratum for RFC2865 §4.1 adds a normative requirement that Access-Request packets MUST contain Message-Authenticator. That directly changes acceptance conditions and contradicts the claim.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788786445,
+        "review_deadline": 1789045645,
+        "finalized_at": 1788786486
+      },
+      {
+        "review_id": "review-eid9034-proof-mtr9eolu",
+        "reserve_id": "reserve-rfc2865-identity-proof-mtr9eolu",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The erratum directly contradicts the locked claim. The locked claim states that implementations accept Access-Request packets without requiring Message-Authenticator, while the erratum explicitly proposes adding a MUST requirement that Access-Request packets contain a Message-Authenticator attribute. This is a direct, material conflict with the locked claim in section 4.1 of RFC2865.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788787007,
+        "review_deadline": 1789046207,
+        "finalized_at": 1788787047
+      }
+    ],
+    "implementerCredits": "3.00",
+    "accounting": {
+      "total_received_gen": "6.00",
+      "reserve_balances_gen": "3.00",
+      "credits_pending_gen": "3.00",
+      "total_withdrawn_gen": "0.00",
+      "accounted_total_gen": "6.00",
+      "balanced": true
+    }
+  },
+  "afterDuplicateAttempt": {
+    "reserveCount": 3,
+    "reviewCount": 3,
+    "reserve": {
+      "reserve_id": "reserve-rfc2865-identity-proof-mtr9eolu",
+      "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+      "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
+      "rfc_id": "RFC2865",
+      "section": "4.1",
+      "claim_text": "Implementation accepts Access-Request packets from valid RADIUS clients without requiring Message-Authenticator.",
+      "claim_version": "claim-v1",
+      "status": "IMPACT_SETTLED",
+      "reserve_balance_gen": "1.00",
+      "material_credit_gen": "1.00",
+      "created_at": 1788786688,
+      "expires_at": 1791378686,
+      "review_count": 1
+    },
+    "reviews": [
+      {
+        "review_id": "review-9034-mtr92c78",
+        "reserve_id": "reserve-rfc2865-mtr92c78",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The erratum introduces a mandatory requirement for Message-Authenticator in Access-Request packets, which directly impacts the core protocol behavior specified in RFC 2865 Section 4.1. This change affects how implementations handle authentication requests and addresses known security vulnerabilities (CVE-2024-3596), making it a material modification to the original specification.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788786150,
+        "review_deadline": 1789045350,
+        "finalized_at": 1788786187
+      },
+      {
+        "review_id": "review-eid9034-proof-mtr97mlo",
+        "reserve_id": "reserve-rfc2865-identity-proof-mtr97mlo",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The locked claim says implementations may accept Access-Request packets from valid clients without Message-Authenticator, but the erratum for RFC2865 §4.1 adds a normative requirement that Access-Request packets MUST contain Message-Authenticator. That directly changes acceptance conditions and contradicts the claim.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788786445,
+        "review_deadline": 1789045645,
+        "finalized_at": 1788786486
+      },
+      {
+        "review_id": "review-eid9034-proof-mtr9eolu",
+        "reserve_id": "reserve-rfc2865-identity-proof-mtr9eolu",
+        "errata_id": "9034",
+        "errata_url": "https://www.rfc-editor.org/errata/eid9034",
+        "status": "MATERIAL_IMPACT",
+        "verdict": "MATERIAL_IMPACT",
+        "rationale": "The erratum directly contradicts the locked claim. The locked claim states that implementations accept Access-Request packets without requiring Message-Authenticator, while the erratum explicitly proposes adding a MUST requirement that Access-Request packets contain a Message-Authenticator attribute. This is a direct, material conflict with the locked claim in section 4.1 of RFC2865.",
+        "settlement_credit_gen": "1.00",
+        "created_at": 1788787007,
+        "review_deadline": 1789046207,
+        "finalized_at": 1788787047
+      }
+    ],
+    "implementerCredits": "3.00",
+    "accounting": {
+      "total_received_gen": "6.00",
+      "reserve_balances_gen": "3.00",
+      "credits_pending_gen": "3.00",
+      "total_withdrawn_gen": "0.00",
+      "accounted_total_gen": "6.00",
+      "balanced": true
+    }
+  },
+  "checks": {
+    "freshReserveBeforeAttack": true,
+    "invalidAttackUnchanged": true,
+    "oneMaterialCredit": true,
+    "duplicateReviewNotCreated": true,
+    "balancedAfterDuplicate": true
+  },
+  "verifiedAt": "2026-09-07T13:25:44.609Z"
+}

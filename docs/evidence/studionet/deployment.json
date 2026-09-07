@@ -2,47 +2,49 @@
   "network": "studionet",
   "chainId": 61999,
   "contractName": "ProtocolErrataReserve",
-  "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
-  "deployTxHash": "0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f",
+  "contractAddress": "0x8Cb815adec4363E8B69491B07b419b914A5DC2D5",
+  "deployTxHash": "0xecf4445ce3da82cb1fdb34f4c1d1dea03f0a4b42ba4785669d184b6fbb3cba3a",
   "deployReceipt": {
-    "hash": "0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f",
+    "hash": "0xecf4445ce3da82cb1fdb34f4c1d1dea03f0a4b42ba4785669d184b6fbb3cba3a",
     "finality": "FINALIZED",
     "executionStatus": "SUCCESS",
     "consensus": "UNKNOWN",
-    "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe"
+    "contractAddress": "0x8Cb815adec4363E8B69491B07b419b914A5DC2D5"
   },
-  "deployedAt": "2026-09-05T21:32:39.437Z",
-  "explorerUrl": "https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
+  "deployedAt": "2026-09-07T13:01:11.653Z",
+  "explorerUrl": "https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5",
   "sponsorAddress": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
+  "sourceCommit": "ddafaf8b18a7d5721007cdd518934eeaed9f90a0",
+  "runner": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6",
   "lifecycle": {
-    "reserveId": "reserve-rfc2865-mtowfw3s",
-    "reviewId": "review-9034-mtowfw3s",
-    "createReserveTx": "0x4f6b49bce1e80cc65f04ebfdf2c5897e0300b4b28850768e04fa0ff7185aada8",
-    "openReviewTx": "0x17b19a0600ac1a54892de0a79e222039293258e59625bcde021c846d181bc81c",
-    "adjudicateTx": "0xfd66dceedffbd96e4a3984f58f7bcdcc14b1086caf88673b965f43982fe0b225",
+    "reserveId": "reserve-rfc2865-mtr92c78",
+    "reviewId": "review-9034-mtr92c78",
+    "createReserveTx": "0xeba968e792733ed8aac68062850e555bc66377665f10f99980db51ef213f8997",
+    "openReviewTx": "0xcce086f1c11339e6be813fd790fcc851d1f1275baffcbc5e15fed873ce29572c",
+    "adjudicateTx": "0xc3b6a053fc7133b6ccc536e54ffc5e6c09bbc5aed5d9470eb1177c8621f4bb99",
     "createReceipt": {
-      "hash": "0x4f6b49bce1e80cc65f04ebfdf2c5897e0300b4b28850768e04fa0ff7185aada8",
+      "hash": "0xeba968e792733ed8aac68062850e555bc66377665f10f99980db51ef213f8997",
       "finality": "FINALIZED",
       "executionStatus": "SUCCESS",
       "consensus": "UNKNOWN",
       "contractAddress": null
     },
     "openReceipt": {
-      "hash": "0x17b19a0600ac1a54892de0a79e222039293258e59625bcde021c846d181bc81c",
+      "hash": "0xcce086f1c11339e6be813fd790fcc851d1f1275baffcbc5e15fed873ce29572c",
       "finality": "FINALIZED",
       "executionStatus": "SUCCESS",
       "consensus": "UNKNOWN",
       "contractAddress": null
     },
     "adjudicateReceipt": {
-      "hash": "0xfd66dceedffbd96e4a3984f58f7bcdcc14b1086caf88673b965f43982fe0b225",
+      "hash": "0xc3b6a053fc7133b6ccc536e54ffc5e6c09bbc5aed5d9470eb1177c8621f4bb99",
       "finality": "FINALIZED",
       "executionStatus": "SUCCESS",
       "consensus": "UNKNOWN",
       "contractAddress": null
     },
     "finalReserve": {
-      "reserve_id": "reserve-rfc2865-mtowfw3s",
+      "reserve_id": "reserve-rfc2865-mtr92c78",
       "sponsor": "0xC495ef51618D03267A1f227aFe5b27B38c748272",
       "implementer": "0x45aD397c438397A702B53a7499a78D08961D39Db",
       "rfc_id": "RFC2865",
@@ -52,22 +54,22 @@
       "status": "IMPACT_SETTLED",
       "reserve_balance_gen": "1.00",
       "material_credit_gen": "1.00",
-      "created_at": 1788643976,
-      "expires_at": 1791235975,
+      "created_at": 1788786112,
+      "expires_at": 1791378110,
       "review_count": 1
     },
     "finalReview": {
-      "review_id": "review-9034-mtowfw3s",
-      "reserve_id": "reserve-rfc2865-mtowfw3s",
+      "review_id": "review-9034-mtr92c78",
+      "reserve_id": "reserve-rfc2865-mtr92c78",
       "errata_id": "9034",
       "errata_url": "https://www.rfc-editor.org/errata/eid9034",
       "status": "MATERIAL_IMPACT",
       "verdict": "MATERIAL_IMPACT",
-      "rationale": "The official erratum (ID 9034) explicitly changes the protocol requirement from allowing Access-Requests without a Message-Authenticator to making the attribute mandatory (MUST). This directly contradicts the locked claim, invalidating the implementation's current permissive state.",
+      "rationale": "The erratum introduces a mandatory requirement for Message-Authenticator in Access-Request packets, which directly impacts the core protocol behavior specified in RFC 2865 Section 4.1. This change affects how implementations handle authentication requests and addresses known security vulnerabilities (CVE-2024-3596), making it a material modification to the original specification.",
       "settlement_credit_gen": "1.00",
-      "created_at": 1788644017,
-      "review_deadline": 1788903217,
-      "finalized_at": 1788644058
+      "created_at": 1788786150,
+      "review_deadline": 1789045350,
+      "finalized_at": 1788786187
     },
     "implementerCredits": "1.00",
     "finalAccounting": {
@@ -78,6 +80,6 @@
       "accounted_total_gen": "2.00",
       "balanced": true
     },
-    "executedAt": "2026-09-05T21:35:07.983Z"
+    "executedAt": "2026-09-07T13:04:14.038Z"
   }
 }

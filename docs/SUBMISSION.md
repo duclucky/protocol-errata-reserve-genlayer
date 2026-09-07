@@ -25,42 +25,42 @@ Character count: 824
 ## Evidence
 
 - Repository: https://github.com/duclucky/protocol-errata-reserve-genlayer
-- Primary contract explorer: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
+- Primary contract explorer: https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
-- Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788644115284.json`
-- Live browser evidence: `tests/browser/live-product.test.mjs`, `docs/evidence/studionet/live-prod-desktop.png`, `docs/evidence/studionet/live-prod-mobile.png`, `docs/evidence/studionet/live-duplicate-credit-proof.json`
-- Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/34040468433
+- Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788787562062.json`, `docs/evidence/studionet/errata-identity-proof-1788787544610.json`
+- Live browser evidence: pending final Vercel deployment verification.
+- Successful CI: pending final remediation push and exact-HEAD verification.
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
 
 ## How To Try It
 
 1. Open https://protocol-errata-reserve-genlayer.vercel.app in a fresh browser session.
-2. On Overview, wait for canonical state to load, then confirm the live Studionet snapshot: `3` reserves, `2` material outcomes, and `2.00 GEN` remediation credit ready.
+2. On Overview, wait for canonical state to load, then confirm the live Studionet snapshot: `3` reserves, `3` material outcomes, and `3.00 GEN` remediation credit ready.
 3. Open History, select `RFC2865 section 4.1`, and click View case.
 4. Confirm `Material impact settled`, `1.00 GEN implementer credit`, the RFC Editor EID 9034 link, and the GenLayer Explorer link.
 5. Open the contract link and confirm the Studionet contract page loads.
 6. To run the write lane, open Start, choose a detected funded EVM wallet, and approve the Studionet network switch/add request.
 7. Enter a valid implementer address, keep the prefilled RFC2865 section 4.1 claim, and click `Create reserve with 2 GEN`.
-8. Open Reviews, select the created reserve, keep errata ID `9034` and URL `https://www.rfc-editor.org/errata/eid9034`, then click `Submit official erratum`.
+8. Open Reviews, select the created reserve, keep errata ID `9034` and the exact URL `https://www.rfc-editor.org/errata/eid9034`, then click `Submit official erratum`.
 9. After that transaction finalizes, click the decision action, wait for validator finality, reload canonical state, and verify the new case in History.
 
 ## Verified Facts
 
 - Contracts: 1, `ProtocolErrataReserve`
 - Contract methods: 12 total, 6 view, 6 write
-- Direct tests: 15 passed
+- Direct tests: 18 passed
 - Deployment parser tests: 6 passed
-- Frontend tests: 17 passed
+- Frontend tests: 19 passed
 - Browser production check: desktop and mobile passed with no console/request errors or horizontal overflow
 - Network: Studionet, chain ID `61999`
-- Contract: `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe`
-- Deploy transaction: `0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f`
-- Adjudication transaction: `0xfd66dceedffbd96e4a3984f58f7bcdcc14b1086caf88673b965f43982fe0b225`
-- Lifecycle: reserve `reserve-rfc2865-mtowfw3s`, review `review-9034-mtowfw3s`, verdict `MATERIAL_IMPACT`, 1.00 GEN implementer credit pending, accounting balanced.
+- Contract: `0x8Cb815adec4363E8B69491B07b419b914A5DC2D5`
+- Deploy transaction: `0xecf4445ce3da82cb1fdb34f4c1d1dea03f0a4b42ba4785669d184b6fbb3cba3a`
+- Identity proof: prefix `903 + eid9034` finalized `ERROR` with exact binding error; valid `9034 + eid9034` finalized `MATERIAL_IMPACT`; duplicate evidence under a new review ID finalized `ERROR` with no second credit.
+- Final state: `3` reserves, `3` reviews, `6.00 GEN` received, `3.00 GEN` reserve balance, `3.00 GEN` pending credit, balanced accounting.
 
 ## Honest Limitations / Pending
 
-- Live Chrome wallet proof completed for the implementer account: `open_review` and `adjudicate_review` were user-signed; resubmitting EID `9034` under a new review ID finalized with `executionStatus: ERROR`, while canonical state remained `reviews: 2`, `6.00 GEN` received, `4.00 GEN` reserved, `2.00 GEN` pending credits, `balanced: true`.
+- The replacement contract is the only active release. The previous contract `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe` is immutable, archived as `ABANDONED_BROKEN`, and must not be funded.
 - CI uses artifact-independent GenVM AST lint plus tests/build because clean GitHub runners received 404 when downloading the pinned GenVM validation artifact. Full `genvm-lint check` is verified locally and the same source is deployed on Studionet.
 - Only RFC Editor errata are in scope for v1; other standards bodies and package ecosystem integrations are milestone headroom.
 
@@ -78,4 +78,4 @@ This is a Projects submission because the deliverable is a complete dApp with a 
 
 **Live app:** https://protocol-errata-reserve-genlayer.vercel.app
 
-**Contract (studionet):** 0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
+**Contract (studionet):** 0x8Cb815adec4363E8B69491B07b419b914A5DC2D5

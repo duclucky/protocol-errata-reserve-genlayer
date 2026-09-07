@@ -19,15 +19,15 @@ https://protocol-errata-reserve-genlayer.vercel.app
 
 - Network: GenLayer Studionet
 - Chain ID: `61999`
-- Contract: `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe`
-- Explorer: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
-- Deploy transaction: `0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f`
+- Contract: `0x8Cb815adec4363E8B69491B07b419b914A5DC2D5`
+- Explorer: https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
+- Deploy transaction: `0xecf4445ce3da82cb1fdb34f4c1d1dea03f0a4b42ba4785669d184b6fbb3cba3a`
 
 ## What It Does
 
 A sponsor locks exactly 2 GEN behind a specific RFC conformance claim. An implementer submits an official RFC Editor erratum URL. GenLayer validators fetch the authoritative RFC Editor evidence and decide whether the erratum materially affects the locked claim. A material-impact verdict credits 1 GEN to the implementer; no-material-impact or unverifiable evidence remains non-penalizing.
 
-The current Studionet lifecycle used RFC2865 section 4.1 and RFC Editor erratum 9034. The finalized verdict is `MATERIAL_IMPACT`; canonical accounting shows 2.00 GEN received, 1.00 GEN still reserved, 1.00 GEN pending implementer credit, and balanced accounting. An errata ID or canonical RFC Editor URL can create at most one 1 GEN material credit per reserve, even when resubmitted under a new review ID after settlement. Non-material and unverifiable outcomes remain retryable, and the same erratum remains independent in another reserve.
+The current Studionet evidence uses RFC2865 section 4.1 and RFC Editor erratum 9034. Three fresh reserves have finalized `MATERIAL_IMPACT` outcomes; canonical accounting shows 6.00 GEN received, 3.00 GEN still reserved, 3.00 GEN pending implementer credit, and balanced accounting. The contract accepts only the exact URL grammar `https://www.rfc-editor.org/errata/eid<EID>`, requires URL EID equality with the supplied ID, and allows at most one 1 GEN material credit per reserve even when resubmitted under a new review ID after settlement. Non-material and unverifiable outcomes remain retryable, and the same erratum remains independent in another reserve.
 
 ## Why GenLayer
 
@@ -74,7 +74,7 @@ npm run check
 To run the frontend against the deployed contract, create `frontend/.env.local`:
 
 ```text
-VITE_CONTRACT_ADDRESS=0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
+VITE_CONTRACT_ADDRESS=0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
 VITE_GENLAYER_EXPLORER_URL=https://explorer-studio.genlayer.com
 ```
 
@@ -100,10 +100,10 @@ Deployment and lifecycle evidence is in `docs/evidence/studionet`.
 2. Open Overview and confirm the app shows ProtocolErrataReserve, category Projects, and the GenLayer Explorer link.
 3. Open Start. Connect a funded EVM wallet when you want to submit a live Studionet transaction.
 4. Create a remediation reserve with exactly 2 GEN, one implementer wallet address, and one locked RFC claim.
-5. Open Reviews. Select an active reserve and submit the official RFC Editor errata URL, for example `https://www.rfc-editor.org/errata/eid9034`.
+5. Open Reviews. Select an active reserve and submit errata ID `9034` with the exact URL `https://www.rfc-editor.org/errata/eid9034`; partial IDs and URL aliases are rejected before the wallet is called.
 6. Wait for the transaction state to finalize, then reload canonical state.
 7. Open History and then View case to check the validator outcome and GEN consequence.
-8. Open the contract on GenLayer Explorer: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
+8. Open the contract on GenLayer Explorer: https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
 
 ## Verification
 
@@ -111,15 +111,15 @@ Fresh local verification:
 
 - `npm run check`: passed
 - GenVM lint: passed, `ProtocolErrataReserve`, 12 methods, 6 view, 6 write
-- Direct tests: 15 passed
+- Direct tests: 18 passed
 - Deployment parser tests: 6 passed
-- Frontend tests: 17 passed
+- Frontend tests: 19 passed
 - Frontend typecheck and production build: passed
 - Browser production check: desktop and mobile loaded finalized contract state with no console/request errors and no horizontal overflow (`npm run check:browser`)
-- Live Chrome wallet proof: wallet `0xbd733bc56ec4a55fa25c068b9306b0171335d199` signed `open_review` and `adjudicate_review`; resubmitting EID `9034` under a new review ID finalized with contract `ERROR` and produced no second review or credit.
+- Live Studionet identity proof: prefix attack `903 + eid9034` finalized with contract `ERROR` and the exact binding error; valid `9034 + eid9034` settled one `1.00 GEN` credit; the same evidence under a new review ID finalized with `ERROR` and produced no second review or credit.
 
 ## Honest Limits
 
-- The live browser write path was signed with the implementer wallet for the second reserve. Reserve funding for that test used the configured sponsor signer because the browser wallet available for manual signing was the implementer account.
+- The superseded contract `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe` is immutable, archived as `ABANDONED_BROKEN`, and must not receive funding. The frontend and active explorer link use only the replacement address.
 - The first lifecycle script version did not save `create_reserve` and `open_review` hashes before an adjudication wait timeout. The adjudication hash was recovered, finalized, and the final state was read from canonical views.
 - Only RFC Editor errata are in scope for v1. W3C, WHATWG, IANA, package manifests, and SDK marketplace integrations are milestone headroom, not current claims.

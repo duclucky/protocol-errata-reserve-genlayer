@@ -1,0 +1,23 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractName": "ProtocolErrataReserve",
+  "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
+  "deployTxHash": "0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f",
+  "deployedAt": "2026-09-05T21:32:39.437Z",
+  "explorerUrl": "https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
+  "status": "ABANDONED_BROKEN",
+  "reason": "partial EID/URL substring binding permits duplicate material credit",
+  "doNotFund": true,
+  "remainingValue": {
+    "reserveBalancesGen": "4.00",
+    "creditsPendingGen": "2.00",
+    "totalReceivedGen": "6.00",
+    "totalWithdrawnGen": "0.00",
+    "accountedTotalGen": "6.00",
+    "balanced": true
+  },
+  "latestCanonicalStateEvidence": "docs/evidence/studionet/state-1788785962098.json",
+  "replacement": "0x8Cb815adec4363E8B69491B07b419b914A5DC2D5",
+  "archivedAt": "2026-09-07T19:59:41.4046404+07:00"
+}

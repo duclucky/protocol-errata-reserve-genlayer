@@ -8,12 +8,12 @@
 - Logo: `docs/listing/logo.svg`
 - One-liner: Fund protocol remediation when official RFC errata materially affect a locked conformance claim.
 - Website: https://protocol-errata-reserve-genlayer.vercel.app
-- Contract: https://explorer-studio.genlayer.com/address/0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe
+- Contract: https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
 
 ## Fresh Reviewer Steps
 
 1. Open https://protocol-errata-reserve-genlayer.vercel.app in a fresh browser session.
-2. On Overview, wait for canonical state to load and confirm the live Studionet records and material outcomes are loaded; the recorded live snapshot has `3` reserves, `2` material outcomes, and `2.00 GEN` remediation credit ready.
+2. On Overview, wait for canonical state to load and confirm the live Studionet records and material outcomes are loaded; the recorded live snapshot has `3` reserves, `3` material outcomes, and `3.00 GEN` remediation credit ready.
 3. Open History, select `RFC2865 section 4.1`, and click View case.
 4. Confirm `Material impact settled`, `1.00 GEN implementer credit`, the RFC Editor EID 9034 link, and the GenLayer Explorer link.
 5. Open the contract link and confirm the Studionet contract page loads.
@@ -21,7 +21,7 @@
 7. Approve the Studionet network switch/add request, enter a valid implementer address, keep the prefilled RFC2865 section 4.1 claim, and click `Create reserve with 2 GEN`.
 8. Open Reviews, select the created reserve, keep errata ID `9034` and URL `https://www.rfc-editor.org/errata/eid9034`, then click `Submit official erratum`.
 9. After finality, use the decision action, wait for validator finality, reload canonical state, and verify the result in History and View case.
-10. If you submit the same errata ID and URL again under a new review ID for that reserve, the contract rejects it before creating a second review or credit; the existing `1.00 GEN` credit and balanced accounting remain unchanged.
+10. The exact pair must be `9034` and `https://www.rfc-editor.org/errata/eid9034`; a prefix ID, leading-zero ID, URL suffix, query, fragment, port, or alternate host is rejected before the wallet is called. Reusing the exact pair under a new review ID after settlement is rejected by the contract before a second review or credit.
 
 ## Local Checks
 
@@ -35,9 +35,9 @@ Expected high-signal output includes:
 ```text
 Project protocol-errata-reserve -Category projects
 NO BLOCKER
-15 passed
+18 passed
 tests 6
-Tests 17 passed
+Tests 19 passed
 built
 ```
 
@@ -52,13 +52,13 @@ Expected state summary:
 
 ```json
 {
-  "contractAddress": "0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe",
+  "contractAddress": "0x8Cb815adec4363E8B69491B07b419b914A5DC2D5",
   "reserves": 3,
-  "reviews": 2,
+  "reviews": 3,
   "accounting": {
     "total_received_gen": "6.00",
-    "reserve_balances_gen": "4.00",
-    "credits_pending_gen": "2.00",
+    "reserve_balances_gen": "3.00",
+    "credits_pending_gen": "3.00",
     "total_withdrawn_gen": "0.00",
     "accounted_total_gen": "6.00",
     "balanced": true
@@ -68,7 +68,7 @@ Expected state summary:
 
 ## Browser App
 
-The deployed app has the public contract address configured in Vercel and routes browser reads through the same-origin `/genlayer-rpc` proxy. The local browser app uses ignored `frontend/.env.local` for the same public address.
+The deployed app has the replacement public contract address configured in Vercel and routes browser reads through the same-origin `/genlayer-rpc` proxy. The local browser app uses ignored `frontend/.env.local` for the same public address.
 
 ```powershell
 cd "D:\Genlayer Project\protocol-errata-reserve\frontend"

@@ -130,15 +130,11 @@ Frontend directives:
 
 ## Studionet Evidence
 
-- Contract: `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe`
+- Contract: `0x8Cb815adec4363E8B69491B07b419b914A5DC2D5`
 - Live app: `https://protocol-errata-reserve-genlayer.vercel.app`
-- Deploy transaction: `0x1da3b25670f7a25fac01c0ac12168e2a41a7f15874874e1e4b7b0610b680a91f`
-- Adjudication transaction: `0xfd66dceedffbd96e4a3984f58f7bcdcc14b1086caf88673b965f43982fe0b225`
-- Live browser duplicate proof: `0x89f82ca501a6ad16eadae2e597f6e720e3551dfa696219b37196cfdee2e3117e` finalized with `executionStatus: ERROR`; canonical state remained balanced with no second review or credit.
-- Reserve: `reserve-rfc2865-mtowfw3s`
-- Review: `review-9034-mtowfw3s`
-- Verdict: `MATERIAL_IMPACT`
-- Accounting snapshot after the live browser regression: 6.00 GEN received, 4.00 GEN reserve balance, 2.00 GEN pending implementer credit, balanced `true`.
-- Evidence files: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/live-duplicate-credit-proof.json`, latest `docs/evidence/studionet/state-*.json`, `browser-desktop.png`, `browser-mobile.png`.
-
-The first lifecycle script run reached `create_reserve` and `open_review`, then timed out while waiting for `adjudicate_review` finality. That pre-resume script version had not yet saved create/open hashes. The adjudication hash above was recovered from the timeout output, finalized with `wait-tx`, and the final reserve/review/accounting state was read from canonical view methods.
+- Deploy transaction: `0xecf4445ce3da82cb1fdb34f4c1d1dea03f0a4b42ba4785669d184b6fbb3cba3a`
+- Identity proof: `docs/evidence/studionet/errata-identity-proof-1788787544610.json`
+- Latest canonical state: `docs/evidence/studionet/state-1788787562062.json`
+- Accounting snapshot: 6.00 GEN received, 3.00 GEN reserve balance, 3.00 GEN pending implementer credit, 0.00 GEN withdrawn, balanced `true`.
+- Exact binding proof: prefix `903 + eid9034` finalized `ERROR` with the exact binding error; valid `9034 + eid9034` settled one credit; duplicate evidence under a new review ID finalized `ERROR` with no state/accounting change.
+- Superseded deployment: `0x0fe3043e4A3e17dB8BE5424aB95Cc5e2fa4AcBCe`, archived as `ABANDONED_BROKEN` with `doNotFund: true`.
