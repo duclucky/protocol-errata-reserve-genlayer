@@ -27,8 +27,8 @@ Character count: 981
 - Repository: https://github.com/duclucky/protocol-errata-reserve-genlayer
 - Primary contract explorer: https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
 - Consumer/integration explorer: N/A; one contract owns the current product lifecycle.
-- Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788787562062.json`, `docs/evidence/studionet/errata-identity-proof-1788787544610.json`
-- Live browser evidence: `npm run check:browser` passed on desktop/mobile; Chrome verified the wallet picker, selected account `...d199`, account menu/disconnect, canonical route reads/reload, and client-side rejection of `903 + eid9034` without a transaction.
+- Lifecycle evidence: `docs/evidence/studionet/deployment.json`, `docs/evidence/studionet/state-1788791329547.json`, `docs/evidence/studionet/errata-identity-proof-1788787544610.json`, `docs/evidence/studionet/browser-wallet-lifecycle-1788791329547.json`
+- Live browser evidence: `npm run check:browser` passed on desktop/mobile; Chrome completed a funded lifecycle with 2 GEN reserve creation, exact EID 9034 review submission, validator adjudication, 1 GEN credit withdrawal, canonical reloads, wallet picker, account menu/disconnect, and client-side rejection of `903 + eid9034` without a transaction.
 - Successful CI: https://github.com/duclucky/protocol-errata-reserve-genlayer/actions/runs/34130046632 (passed for `0ff376ce`).
 - Demo/frontend: https://protocol-errata-reserve-genlayer.vercel.app
 
@@ -56,7 +56,8 @@ Character count: 981
 - Contract: `0x8Cb815adec4363E8B69491B07b419b914A5DC2D5`
 - Deploy transaction: `0xecf4445ce3da82cb1fdb34f4c1d1dea03f0a4b42ba4785669d184b6fbb3cba3a`
 - Identity proof: prefix `903 + eid9034` finalized `ERROR` with exact binding error; valid `9034 + eid9034` finalized `MATERIAL_IMPACT`; duplicate evidence under a new review ID finalized `ERROR` with no second credit.
-- Final state: `3` reserves, `3` reviews, `6.00 GEN` received, `3.00 GEN` reserve balance, `3.00 GEN` pending credit, balanced accounting.
+- Browser lifecycle: `2.00 GEN` reserve, exact `9034` review, `MATERIAL_IMPACT`, `1.00 GEN` credit, and `1.00 GEN` withdrawal all finalized successfully; the implementer account now has `0.00 GEN` withdrawable.
+- Final state: `4` reserves, `4` reviews, `8.00 GEN` received, `4.00 GEN` reserve balance, `3.00 GEN` pending credit, `1.00 GEN` withdrawn, balanced accounting.
 
 ## Honest Limitations / Pending
 

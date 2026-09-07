@@ -10,8 +10,8 @@
 
 ## Pending Or Limited
 
-- Browser-wallet writes are wired and tested through the adapter, but this run did not include a live user wallet signature from an installed browser extension.
-- The live browser evidence therefore proves canonical reads and the read-only reviewer path; it does not prove a funded wallet completed a browser write.
+- Browser-wallet writes were completed from Chrome using the selected EVM provider: a 2 GEN reserve, exact EID 9034 review, validator adjudication and 1 GEN withdrawal all finalized, with canonical reloads after each transition.
+- The live browser evidence still does not prove the old abandoned contract is safe; all browser writes target only the replacement address.
 - The first lifecycle script version did not save the `create_reserve` and `open_review` transaction hashes before the adjudication wait timeout. The adjudication transaction was recovered and finalized, then canonical state proved the full settlement outcome.
 - CI uses artifact-independent AST lint plus tests/build because clean GitHub runners received 404 when downloading the GenVM validation artifact for the pinned runner. Full `genvm-lint check` is proven locally and by successful Studionet deployment.
 

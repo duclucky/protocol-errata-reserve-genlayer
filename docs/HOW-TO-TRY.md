@@ -21,6 +21,7 @@
 7. Approve the Studionet network switch/add request, enter a valid implementer address, keep the prefilled RFC2865 section 4.1 claim, and click `Create reserve with 2 GEN`.
 8. Open Reviews, select the created reserve, keep errata ID `9034` and URL `https://www.rfc-editor.org/errata/eid9034`, then click `Submit official erratum`.
 9. After finality, use the decision action, wait for validator finality, reload canonical state, and verify the result in History and View case.
+10. Open Account, confirm the finalized `1.00 GEN` credit, and click `Withdraw finalized credits`; wait for finality and confirm the withdrawable credit returns to `0.00 GEN`.
 10. The exact pair must be `9034` and `https://www.rfc-editor.org/errata/eid9034`; a prefix ID, leading-zero ID, URL suffix, query, fragment, port, or alternate host is rejected before the wallet is called. Reusing the exact pair under a new review ID after settlement is rejected by the contract before a second review or credit.
 
 ## Local Checks

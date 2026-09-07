@@ -1,0 +1,51 @@
+{
+  "network": "studionet",
+  "chainId": 61999,
+  "contractAddress": "0x8Cb815adec4363E8B69491B07b419b914A5DC2D5",
+  "sponsorAddress": "0xc495ef51618d03267a1f227afe5b27b38c748272",
+  "implementerAddress": "0xbd733bc56ec4a55fa25c068b9306b0171335d199",
+  "reserveId": "reserve-rfc2865-1788790800096",
+  "reviewErrataId": "9034",
+  "transactions": [
+    {
+      "action": "create_reserve",
+      "value_gen": "2.00",
+      "txHash": "0x23a4df0d3500756d9ca9f4fcef44fef088fb3ad6eec0e2a9716350fe3afb11a9",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS"
+    },
+    {
+      "action": "open_review",
+      "errataId": "9034",
+      "errataUrl": "https://www.rfc-editor.org/errata/eid9034",
+      "txHash": "0x05829850d87464135036aa15007bf4a664d2be2f52541945fadd453220920dbb",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS"
+    },
+    {
+      "action": "adjudicate_review",
+      "verdict": "MATERIAL_IMPACT",
+      "txHash": "0xa128966a590ce2a50345dc36127a780b5be812e80d81cbff15ff30c21dbdd97d",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS"
+    },
+    {
+      "action": "withdraw_credits",
+      "value_gen": "1.00",
+      "txHash": "0xe546a343e74df48628abca4c90f28a3b6a841795aa84737a44405d48c0777c13",
+      "finality": "FINALIZED",
+      "executionStatus": "SUCCESS"
+    }
+  ],
+  "canonicalStateAfter": {
+    "reserves": 4,
+    "reviews": 4,
+    "total_received_gen": "8.00",
+    "reserve_balances_gen": "4.00",
+    "credits_pending_gen": "3.00",
+    "total_withdrawn_gen": "1.00",
+    "accounted_total_gen": "8.00",
+    "balanced": true
+  },
+  "recordedAt": "2026-09-07T14:28:49.000Z"
+}

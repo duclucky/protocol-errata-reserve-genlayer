@@ -103,7 +103,8 @@ Deployment and lifecycle evidence is in `docs/evidence/studionet`.
 5. Open Reviews. Select an active reserve and submit errata ID `9034` with the exact URL `https://www.rfc-editor.org/errata/eid9034`; partial IDs and URL aliases are rejected before the wallet is called.
 6. Wait for the transaction state to finalize, then reload canonical state.
 7. Open History and then View case to check the validator outcome and GEN consequence.
-8. Open the contract on GenLayer Explorer: https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
+8. Open Account, confirm the finalized `1.00 GEN` credit, and withdraw it after the transaction finalizes.
+9. Open the contract on GenLayer Explorer: https://explorer-studio.genlayer.com/address/0x8Cb815adec4363E8B69491B07b419b914A5DC2D5
 
 ## Verification
 
